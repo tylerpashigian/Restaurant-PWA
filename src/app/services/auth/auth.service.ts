@@ -65,6 +65,16 @@ export class AuthService {
     }
   }
 
+  async logout() {
+    try {
+      await firebase.auth().signOut();
+      this.toastService.presentToast("Success");
+    } catch (error) {
+      console.log(error);
+      this.toastService.presentToast("Failure");
+    }
+  }
+
   async createAccount(email: string, password: string) {
     try {
       const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
