@@ -1,9 +1,50 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Create Menu</ion-title>
+    <ion-title>{{ restaurantName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ restaurantName }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
+  <div id="container">
+    <ion-list lines="none">
+        <form [formGroup]="categoryForm">
+            <ion-item>
+              <ion-label position="stacked">Category</ion-label>
+              <ion-input formControlName="category" type="text" [placeholder]="categoryPlaceholder"></ion-input>
+            </ion-item>
+            <div class="timeContainer">
+              <ion-item>
+                <ion-label position="stacked">Start Time</ion-label>
+                <ion-datetime tabindex="0" formControlName="startTime" displayFormat="h:mm a" [placeholder]="startTimePlaceholder"></ion-datetime>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">End Time</ion-label>
+                <ion-datetime tabindex="0" formControlName="endTime" displayFormat="h:mm a" [placeholder]="endTimePlaceholder"></ion-datetime>
+              </ion-item>
+            </div>
+        </form>
+    </ion-list>
+
+    <ion-button color="primary" (click)="addCategory()">Add Category</ion-button>
+    <ion-button color="primary" (click)="logout()">Logout</ion-button>
+
+    <ion-list>
+      <ion-item *ngFor="let category of categories">
+        <!-- Temporarily wrapping the category in tabindex=0 div to fix macOS Safari 14.0 reload bug - https://github.com/ionic-team/ionic-framework/issues/21939#issuecomment-679936379 -->
+        <div tabindex="0">
+          <p>{{ category.title }}</p>
+          <div class="timeContainer">
+            <p *ngIf="category.startTime">{{ category.startTime }}</p>
+            <p *ngIf="category.endTime">{{ category.endTime }}</p>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
