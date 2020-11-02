@@ -35,6 +35,24 @@ export class RestaurantService {
 
   }
 
+  subscribeToCategories(handler: Function): void {
+    this.database
+    .collection("categories")
+    .onSnapshot(documents => {
+      let categories = [] as Category[];
+      documents.forEach(element => {
+        let data = element.data()
+        let category: Category = {
+          title: data.category,
+          startTime: data.startTime,
+          endTime: data.endTime
+        }
+        categories.push(category);
+      });
+      handler(categories);
+    })
+  }
+
   async addCategory(category: Category): Promise<firebase.firestore.DocumentReference> {
     try {
       return await this.database.collection("categories").add({

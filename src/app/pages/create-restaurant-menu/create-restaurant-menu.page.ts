@@ -50,12 +50,20 @@ export class CreateRestaurantMenuPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getCategories();
+    this.subscribeToCategories();
   }
 
+  // Loading data once while reading as a customer
   async getCategories() {
     await this.restaurantService.getCategories().then(data => {
       this.categories = data;
+    })
+  }
+
+  // Subscribing to see live updates while editing
+  subscribeToCategories() {
+    this.restaurantService.subscribeToCategories(categories => {
+      this.categories = categories
     })
   }
 
