@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Modal Content</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list lines="none">
+      <form [formGroup]="itemForm">
+          <ion-item>
+            <ion-label position="stacked">Name</ion-label>
+            <ion-input ngDefaultControl formControlName="name" type="text" [placeholder]="categoryPlaceholder"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Price</ion-label>
+            <ion-input ngDefaultControl formControlName="price" type="text" [placeholder]="categoryPlaceholder"></ion-input>
+          </ion-item>
+      </form>
+  </ion-list>
+  <ion-button color="primary" (click)="addMenuItem()">Add Item</ion-button>
+</ion-content>

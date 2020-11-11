@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth/auth.service'
 import { RestaurantService } from '../../services/database/restaurant/restaurant.service'
 
 import { Category } from 'src/app/models/category';
+import { MenuItem } from 'src/app/models/menuItem';
 
 @Component({
   selector: 'app-create-restaurant-menu',
@@ -20,7 +21,7 @@ export class CreateRestaurantMenuPage implements OnInit {
   private endTimePlaceholder: string = "12:00 pm"
   private categories: Category[];
 
-  constructor(private authService: AuthService, private restaurantService: RestaurantService, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private restaurantService: RestaurantService) {
     this.createForms()
   }
 
@@ -39,8 +40,8 @@ export class CreateRestaurantMenuPage implements OnInit {
     let endTime: string | null = this.categoryForm.controls.endTime.value;
     let category: Category = {
       title: title,
+      endTime: endTime,
       startTime: startTime,
-      endTime: endTime
     }
     let newCategory = await this.restaurantService.addCategory(category);
   }
