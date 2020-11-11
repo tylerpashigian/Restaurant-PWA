@@ -14,12 +14,12 @@ import { MenuItem } from 'src/app/models/menuItem';
 })
 export class CreateRestaurantMenuPage implements OnInit {
 
-  private categoryForm: FormGroup;
-  private restaurantName: string = "Sample Restaurant";
-  private categoryPlaceholder: string = "Breakfast"
-  private startTimePlaceholder: string = "8:00 am"
-  private endTimePlaceholder: string = "12:00 pm"
-  private categories: Category[];
+  public categoryForm: FormGroup;
+  public restaurantName: string = "Sample Restaurant";
+  public categoryPlaceholder: string = "Breakfast"
+  public startTimePlaceholder: string = "8:00 am"
+  public endTimePlaceholder: string = "12:00 pm"
+  public categories: Category[];
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private restaurantService: RestaurantService) {
     this.createForms()

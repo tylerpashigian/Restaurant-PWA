@@ -15,7 +15,7 @@ export class AddItemModalComponent implements OnInit {
 
   @Input() category: Category;
 
-  private itemForm: FormGroup;
+  public itemForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private modalController: ModalController, private restaurantService: RestaurantService) {
     this.createForms()

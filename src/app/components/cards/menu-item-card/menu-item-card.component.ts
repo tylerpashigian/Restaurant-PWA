@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { AddItemModalComponent } from 'src/app/components/modals/add-item-modal/add-item-modal.component';
 import { ModalController } from '@ionic/angular'
-import { MenuItem } from 'src/app/models/menuItem';
+import { Category } from 'src/app/models/category';
 
 @Component({
   selector: 'app-menu-item-card',
@@ -11,9 +11,7 @@ import { MenuItem } from 'src/app/models/menuItem';
 })
 export class MenuItemCardComponent implements OnInit {
 
-  private currentModal = null
-
-  @Input() cardModel: MenuItem[];
+  @Input() cardModel: Category;
 
   constructor(private modalController: ModalController) {}
 
@@ -27,7 +25,6 @@ export class MenuItemCardComponent implements OnInit {
       },
       swipeToClose: true
     });
-    this.currentModal = modal;
     return await modal.present();
   }
 
