@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular'
 
 import { RestaurantService } from 'src/app/services/database/restaurant/restaurant.service';
+import { GenericToastService } from 'src/app/services/toasts/genericToast/generic-toast.service'
 import { MenuItem } from 'src/app/models/menuItem';
 import { Category } from 'src/app/models/category';
 
@@ -17,7 +18,7 @@ export class AddItemModalComponent implements OnInit {
 
   public itemForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private modalController: ModalController, private restaurantService: RestaurantService) {
+  constructor(private formBuilder: FormBuilder, private modalController: ModalController, private restaurantService: RestaurantService, private toastService: GenericToastService) {
     this.createForms()
   }
 
@@ -39,6 +40,14 @@ export class AddItemModalComponent implements OnInit {
       price: price,
     }
     let newItem = await this.restaurantService.addMenuItem(this.category.id, menuItem);
+    if (newItem != null) {
+      this.category.menuItems != null ? this.category.menuItems.push(menuItem) : this.category.menuItems = [menuItem];
+      this.dismissModal();
+      this.toastService.presentToast("Success")
+    } else {
+      this.toastService.presentToast("Failure")
+    }
+
   }
 
   dismissModal() {

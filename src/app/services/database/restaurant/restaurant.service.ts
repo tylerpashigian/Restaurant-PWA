@@ -60,7 +60,6 @@ export class RestaurantService {
 
   async getMenuItemsFromCategory(categoryId: string): Promise<MenuItem[]> {
     let menuItems = [] as MenuItem[];
-    // TODO: change to onSnapshot
     let subcollections = await this.database.collection("categories").doc(categoryId).collection("menuItems").get()
     subcollections.forEach(element => {
       let data = element.data()
