@@ -20,6 +20,10 @@ describe('AddItemModalComponent', () => {
 
     fixture = TestBed.createComponent(AddItemModalComponent);
     component = fixture.componentInstance;
+    component.category = {
+      title: "Test",
+      menuItems: []
+    }
     fixture.detectChanges();
   }));
 

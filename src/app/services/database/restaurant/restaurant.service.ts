@@ -5,6 +5,7 @@ import 'firebase/firestore';
 
 import { Category } from 'src/app/models/category';
 import { MenuItem } from 'src/app/models/menuItem';
+import { Constants } from 'src/utils/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,25 @@ export class RestaurantService {
   private database: firebase.firestore.Firestore;
 
   constructor() {
+
+    const firebaseConfig = {
+      apiKey: Constants.Firebase.FirebaseApiKey,
+      authDomain: Constants.Firebase.FirebaseAuthDomain,
+      databaseURL: Constants.Firebase.FirebaseDatabaseURL,
+      projectId: Constants.Firebase.FirebaseProjectId,
+      storageBucket: Constants.Firebase.FirebaseStorageBucket,
+      messagingSenderId: Constants.Firebase.FirebaseMessagingSenderId,
+      appId: Constants.Firebase.FirebaseAppId,
+      measurementId: Constants.Firebase.FirebaseMeasurementId
+    };
+
+
+    if (!firebase.apps.length) {
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      // firebase.analytics();
+    }
+
     this.database = firebase.firestore();
   }
 

@@ -15,6 +15,10 @@ describe('MenuItemCardComponent', () => {
 
     fixture = TestBed.createComponent(MenuItemCardComponent);
     component = fixture.componentInstance;
+    component.cardModel = {
+      title: "Test",
+      menuItems: []
+    }
     fixture.detectChanges();
   }));
 
