@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { AddItemModalComponent } from 'src/app/components/modals/add-item-modal/add-item-modal.component';
-import { ModalController } from '@ionic/angular'
+import { IonRouterOutlet, ModalController } from '@ionic/angular'
 import { Category } from 'src/app/models/category';
 
 @Component({
@@ -13,7 +13,7 @@ export class MenuItemCardComponent implements OnInit {
 
   @Input() cardModel: Category;
 
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet) {}
 
   ngOnInit() {}
 
@@ -23,6 +23,7 @@ export class MenuItemCardComponent implements OnInit {
       componentProps: {
         'category': this.cardModel
       },
+      presentingElement: this.routerOutlet.nativeEl,
       swipeToClose: true
     });
     return await modal.present();
