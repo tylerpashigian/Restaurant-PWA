@@ -1,9 +1,8 @@
-<!-- Temporarily wrapping the category in tabindex=0 div to fix macOS Safari 14.0 reload bug - https://github.com/ionic-team/ionic-framework/issues/21939#issuecomment-679936379 -->
-<div tabindex="0">
-  <ion-list *ngIf="cardModel.menuItems">
-    <ion-item *ngFor="let menuItem of cardModel.menuItems">
+<ion-list *ngIf="cardModel.menuItems">
+  <ion-item *ngFor="let menuItem of cardModel.menuItems">
+    <!-- Temporarily wrapping the contents of ion-item in tabindex=0 div to fix macOS Safari 14.0 reload bug - https://github.com/ionic-team/ionic-framework/issues/21939#issuecomment-679936379 -->
+    <div tabindex="0">
       <p>{{ menuItem.title }}</p>
-    </ion-item>
-  </ion-list>
-  <ion-button (click)="presentModal()">Add Item</ion-button>
-</div>
+    </div>
+  </ion-item>
+</ion-list>

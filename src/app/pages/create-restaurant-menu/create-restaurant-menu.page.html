@@ -44,6 +44,7 @@
             <p *ngIf="category.endTime">{{ category.endTime }}</p>
           </div>
           <app-menu-item-card [cardModel]="category"></app-menu-item-card>
+          <ion-button (click)="presentModal(category)">Add Item</ion-button>
         </div>
       </ion-item>
     </ion-list>

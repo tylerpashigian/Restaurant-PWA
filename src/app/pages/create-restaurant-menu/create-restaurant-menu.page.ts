@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonRouterOutlet, ModalController } from '@ionic/angular'
 
 import { AuthService } from '../../services/auth/auth.service'
 import { RestaurantService } from '../../services/database/restaurant/restaurant.service'
 
+import { AddItemModalComponent } from 'src/app/components/modals/add-item-modal/add-item-modal.component';
+
 import { Category } from 'src/app/models/category';
-import { MenuItem } from 'src/app/models/menuItem';
 
 @Component({
   selector: 'app-create-restaurant-menu',
@@ -21,7 +23,7 @@ export class CreateRestaurantMenuPage implements OnInit {
   public endTimePlaceholder: string = "12:00 pm"
   public categories: Category[];
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private restaurantService: RestaurantService) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private modalController: ModalController, private restaurantService: RestaurantService, private routerOutlet: IonRouterOutlet) {
     this.createForms()
   }
 
@@ -66,6 +68,18 @@ export class CreateRestaurantMenuPage implements OnInit {
     this.restaurantService.subscribeToCategories(categories => {
       this.categories = categories
     })
+  }
+
+  async presentModal(category: Category) {
+    const modal = await this.modalController.create({
+      component: AddItemModalComponent,
+      componentProps: {
+        'category': category
+      },
+      presentingElement: this.routerOutlet.nativeEl,
+      swipeToClose: true
+    });
+    return await modal.present();
   }
 
 }
