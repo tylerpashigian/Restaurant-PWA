@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Modal Content</ion-title>
+    <ion-title>Add Menu Item</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()">Close</ion-button>
     </ion-buttons>
@@ -12,11 +12,11 @@
       <form [formGroup]="itemForm">
           <ion-item>
             <ion-label position="stacked">Name</ion-label>
-            <ion-input formControlName="name" type="text"></ion-input>
+            <ion-input formControlName="name" type="text" [placeholder]="itemNamePlaceholder"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Price</ion-label>
-            <ion-input formControlName="price" type="text"></ion-input>
+            <ion-input formControlName="price" type="text" [placeholder]="itemPricePlaceholder"></ion-input>
           </ion-item>
       </form>
   </ion-list>

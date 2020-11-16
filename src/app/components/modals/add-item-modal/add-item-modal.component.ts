@@ -16,6 +16,9 @@ export class AddItemModalComponent implements OnInit {
 
   @Input() category: Category;
 
+  public itemNamePlaceholder: string = "Burger"
+  public itemPricePlaceholder: string = "$3.50"
+
   public itemForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private modalController: ModalController, private restaurantService: RestaurantService, private toastService: GenericToastService) {
