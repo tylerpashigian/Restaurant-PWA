@@ -1,0 +1,8 @@
+<ion-list *ngIf="category.menuItems">
+  <ion-item *ngFor="let menuItem of category.menuItems">
+    <!-- Temporarily wrapping the contents of ion-item in tabindex=0 div to fix macOS Safari 14.0 reload bug - https://github.com/ionic-team/ionic-framework/issues/21939#issuecomment-679936379 -->
+    <div tabindex="0">
+      <p>{{ menuItem.title }}</p>
+    </div>
+  </ion-item>
+</ion-list>

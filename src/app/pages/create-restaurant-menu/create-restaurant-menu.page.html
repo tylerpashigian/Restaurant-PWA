@@ -43,6 +43,8 @@
             <p *ngIf="category.startTime">{{ category.startTime }}</p>
             <p *ngIf="category.endTime">{{ category.endTime }}</p>
           </div>
+          <app-menu-items [category]="category"></app-menu-items>
+          <ion-button (click)="presentModal(category)">Add Item</ion-button>
         </div>
       </ion-item>
     </ion-list>

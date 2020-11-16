@@ -6,14 +6,17 @@ import { IonicModule } from '@ionic/angular';
 
 import { CreateRestaurantMenuPageRoutingModule } from './create-restaurant-menu-routing.module';
 
+import { ComponentsModule } from '../../components/components.module'
+
 import { CreateRestaurantMenuPage } from './create-restaurant-menu.page';
 
 @NgModule({
   imports: [
     CommonModule,
+    ComponentsModule,
+    CreateRestaurantMenuPageRoutingModule,
     FormsModule,
     IonicModule,
-    CreateRestaurantMenuPageRoutingModule,
     ReactiveFormsModule
   ],
   declarations: [CreateRestaurantMenuPage]

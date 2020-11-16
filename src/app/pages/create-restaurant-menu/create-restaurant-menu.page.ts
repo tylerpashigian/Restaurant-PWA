@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonRouterOutlet, ModalController } from '@ionic/angular'
 
 import { AuthService } from '../../services/auth/auth.service'
 import { RestaurantService } from '../../services/database/restaurant/restaurant.service'
+
+import { AddItemModalComponent } from 'src/app/components/modals/add-item-modal/add-item-modal.component';
 
 import { Category } from 'src/app/models/category';
 
@@ -13,14 +16,14 @@ import { Category } from 'src/app/models/category';
 })
 export class CreateRestaurantMenuPage implements OnInit {
 
-  private categoryForm: FormGroup;
-  private restaurantName: string = "Sample Restaurant";
-  private categoryPlaceholder: string = "Breakfast"
-  private startTimePlaceholder: string = "8:00 am"
-  private endTimePlaceholder: string = "12:00 pm"
-  private categories: Category[];
+  public categoryForm: FormGroup;
+  public restaurantName: string = "Sample Restaurant";
+  public categoryPlaceholder: string = "Breakfast"
+  public startTimePlaceholder: string = "8:00 am"
+  public endTimePlaceholder: string = "12:00 pm"
+  public categories: Category[];
 
-  constructor(private authService: AuthService, private restaurantService: RestaurantService, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private modalController: ModalController, private restaurantService: RestaurantService, private routerOutlet: IonRouterOutlet) {
     this.createForms()
   }
 
@@ -39,8 +42,8 @@ export class CreateRestaurantMenuPage implements OnInit {
     let endTime: string | null = this.categoryForm.controls.endTime.value;
     let category: Category = {
       title: title,
+      endTime: endTime,
       startTime: startTime,
-      endTime: endTime
     }
     let newCategory = await this.restaurantService.addCategory(category);
   }
@@ -65,6 +68,18 @@ export class CreateRestaurantMenuPage implements OnInit {
     this.restaurantService.subscribeToCategories(categories => {
       this.categories = categories
     })
+  }
+
+  async presentModal(category: Category) {
+    const modal = await this.modalController.create({
+      component: AddItemModalComponent,
+      componentProps: {
+        'category': category
+      },
+      presentingElement: this.routerOutlet.nativeEl,
+      swipeToClose: true
+    });
+    return await modal.present();
   }
 
 }

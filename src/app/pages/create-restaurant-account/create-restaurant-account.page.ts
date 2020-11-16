@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth/auth.service'
 })
 export class CreateRestaurantAccountPage implements OnInit {
 
-  private createForm: FormGroup;
+  public createForm: FormGroup;
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
     this.createForms()

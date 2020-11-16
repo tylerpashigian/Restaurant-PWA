@@ -12,9 +12,9 @@ import { AuthService } from '../../services/auth/auth.service'
 })
 export class HomePage {
 
-  private loginForm: FormGroup;
-  private emailPlaceholder: string = "email";
-  private passwordPlaceholder: string = "password"
+  public loginForm: FormGroup;
+  public emailPlaceholder: string = "email";
+  public passwordPlaceholder: string = "password"
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
     this.createForms()
