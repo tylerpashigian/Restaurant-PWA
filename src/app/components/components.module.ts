@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { MenuItemCardComponent } from './cards/menu-item-card/menu-item-card.component'
+import { MenuItemsComponent } from './menu-items/menu-items.component'
 import { AddItemModalComponent } from './modals/add-item-modal/add-item-modal.component'
 
 @NgModule({
@@ -14,11 +14,11 @@ import { AddItemModalComponent } from './modals/add-item-modal/add-item-modal.co
   ],
   declarations: [
     AddItemModalComponent,
-    MenuItemCardComponent
+    MenuItemsComponent
   ],
   exports: [
     AddItemModalComponent,
-    MenuItemCardComponent
+    MenuItemsComponent
   ]
 })
 

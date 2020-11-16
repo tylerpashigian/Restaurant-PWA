@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MenuItemCardComponent } from './menu-item-card.component';
+import { MenuItemsComponent } from './menu-items.component';
 
-describe('MenuItemCardComponent', () => {
-  let component: MenuItemCardComponent;
-  let fixture: ComponentFixture<MenuItemCardComponent>;
+describe('MenuItemsComponent', () => {
+  let component: MenuItemsComponent;
+  let fixture: ComponentFixture<MenuItemsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MenuItemCardComponent ],
+      declarations: [ MenuItemsComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MenuItemCardComponent);
+    fixture = TestBed.createComponent(MenuItemsComponent);
     component = fixture.componentInstance;
-    component.cardModel = {
+    component.category = {
       title: "Test",
       menuItems: []
     }
