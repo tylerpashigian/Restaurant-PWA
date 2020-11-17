@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as firebase from "firebase/app";
 import "firebase/auth"
 
+import { FirebaseService } from '../firebase/firebase.service'
 import { GenericToastService } from '../../services/toasts/genericToast/generic-toast.service'
 
 @Injectable({
@@ -12,7 +13,7 @@ export class AuthService {
 
   public user: firebase.User;
 
-  constructor(private toastService: GenericToastService) {
+  constructor(private firebaseService: FirebaseService, private toastService: GenericToastService) {
     this.init()
   }
 
