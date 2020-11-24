@@ -34,19 +34,14 @@
     <ion-button color="primary" (click)="addCategory()">Add Category</ion-button>
     <ion-button color="primary" (click)="logout()">Logout</ion-button>
 
-    <ion-list>
-      <ion-item *ngFor="let category of categories">
-        <!-- Temporarily wrapping the category in tabindex=0 div to fix macOS Safari 14.0 reload bug - https://github.com/ionic-team/ionic-framework/issues/21939#issuecomment-679936379 -->
-        <div tabindex="0">
-          <p>{{ category.title }}</p>
-          <div class="timeContainer">
-            <p *ngIf="category.startTime">{{ category.startTime }}</p>
-            <p *ngIf="category.endTime">{{ category.endTime }}</p>
-          </div>
-          <app-menu-items [category]="category"></app-menu-items>
-          <ion-button (click)="presentModal(category)">Add Item</ion-button>
-        </div>
-      </ion-item>
-    </ion-list>
+    <div *ngFor="let category of categories">
+      <p>{{ category.title }}</p>
+      <div class="timeContainer">
+        <p *ngIf="category.startTime">{{ category.startTime }}</p>
+        <p *ngIf="category.endTime">{{ category.endTime }}</p>
+      </div>
+      <app-menu-items [category]="category"></app-menu-items>
+      <ion-button (click)="presentModal(category)">Add Item</ion-button>
+    </div>
   </div>
 </ion-content>

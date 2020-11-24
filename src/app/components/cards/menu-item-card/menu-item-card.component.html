@@ -1,0 +1,14 @@
+<ion-item *ngIf="menuItem">
+  <ion-thumbnail *ngIf="menuItem.imageUrl"  slot="start">
+    <img [src]="menuItem.imageUrl" alt="Menu Item Image">
+  </ion-thumbnail>
+  <ion-label>
+  <div class="vstack">
+    <div class="hstack menuItemCard">
+      <p class="menuItemTitle">{{ menuItem.title }}</p>
+      <p class="ion-text-right">{{ menuItem.price | currency }}</p>
+    </div>
+    <p *ngIf=menuItem.description class="menuItemDescription">{{ menuItem.description }}</p>
+  </div>
+  </ion-label>
+</ion-item>

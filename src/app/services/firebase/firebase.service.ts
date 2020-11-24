@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from "firebase/app";
 import 'firebase/firestore';
+import 'firebase/storage'
 
 import { Constants } from 'src/utils/constants';
 
@@ -11,6 +12,7 @@ import { Constants } from 'src/utils/constants';
 export class FirebaseService {
 
   public database: firebase.firestore.Firestore;
+  public storage: firebase.storage.Storage
 
   constructor() {
     // Your web app's Firebase configuration
@@ -34,5 +36,7 @@ export class FirebaseService {
     }
 
     this.database = firebase.firestore();
+    this.storage = firebase.storage();
+
   }
 }

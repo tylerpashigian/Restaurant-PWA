@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { MenuItemsComponent } from './menu-items/menu-items.component'
 import { AddItemModalComponent } from './modals/add-item-modal/add-item-modal.component'
+import { CustomImageUploadComponent } from './util/custom-image-upload/custom-image-upload.component'
+import { MenuItemCardComponent } from './cards/menu-item-card/menu-item-card.component'
+import { MenuItemsComponent } from './menu-items/menu-items.component'
 
 @NgModule({
   imports: [
@@ -14,10 +16,14 @@ import { AddItemModalComponent } from './modals/add-item-modal/add-item-modal.co
   ],
   declarations: [
     AddItemModalComponent,
+    CustomImageUploadComponent,
+    MenuItemCardComponent,
     MenuItemsComponent
   ],
   exports: [
     AddItemModalComponent,
+    CustomImageUploadComponent,
+    MenuItemCardComponent,
     MenuItemsComponent
   ]
 })

@@ -62,6 +62,8 @@ export class RestaurantService {
     subcollections.forEach(element => {
       let data = element.data()
       let menuItem: MenuItem = {
+        id: element.id,
+        description: data.description,
         title: data.name,
         price: data.price
       }
@@ -87,6 +89,7 @@ export class RestaurantService {
     try {
       return await this.firebaseService.database.collection("categories").doc(categoryId).collection("menuItems").add({
         created: Date.now(),
+        description: menuItem.description,
         name: menuItem.title,
         price: menuItem.price
       });

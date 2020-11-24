@@ -18,6 +18,14 @@
             <ion-label position="stacked">Price</ion-label>
             <ion-input formControlName="price" type="text" [placeholder]="itemPricePlaceholder"></ion-input>
           </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Description</ion-label>
+            <ion-textarea formControlName="description" placeholder="Enter a description"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">File</ion-label>
+            <app-custom-image-upload (image)="setImage($event)"></app-custom-image-upload>
+          </ion-item>
       </form>
   </ion-list>
   <ion-button color="primary" (click)="addMenuItem()">Add Item</ion-button>
