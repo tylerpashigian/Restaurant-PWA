@@ -39,4 +39,17 @@ export class FirebaseService {
     this.storage = firebase.storage();
 
   }
+
+  async uploadImage(id: string, image?: any): Promise<null> {
+    if (image == null) { return }
+
+    await this.storage.ref('menuItems').child(`${id}`).put(image)
+    .then(() => {
+      return
+    })
+    .catch(() => {
+      return
+    })
+}
+
 }

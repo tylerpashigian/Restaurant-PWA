@@ -51,11 +51,12 @@ export class AddItemModalComponent implements OnInit {
     }
     let newItem = await this.restaurantService.addMenuItem(this.category.id, menuItem);
     if (newItem != null) {
-      this.category.menuItems != null ? this.category.menuItems.push(menuItem) : this.category.menuItems = [menuItem];
-      
-      if (this.image) {
-        this.firebaseService.storage.ref('menuItems').child(`${newItem.id}`).put(this.image)
-      }
+      menuItem.id = newItem.id
+
+      this.firebaseService.uploadImage(newItem.id, this.image)
+      .then(() => {
+        this.category.menuItems != null ? this.category.menuItems.push(menuItem) : this.category.menuItems = [menuItem];
+      })
 
       this.dismissModal();
       this.toastService.presentToast("Success")
