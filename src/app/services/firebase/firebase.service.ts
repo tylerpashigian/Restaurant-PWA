@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from "firebase/app";
 import 'firebase/firestore';
+import 'firebase/storage'
 
 import { Constants } from 'src/utils/constants';
 
@@ -11,6 +12,7 @@ import { Constants } from 'src/utils/constants';
 export class FirebaseService {
 
   public database: firebase.firestore.Firestore;
+  public storage: firebase.storage.Storage
 
   constructor() {
     // Your web app's Firebase configuration
@@ -34,5 +36,25 @@ export class FirebaseService {
     }
 
     this.database = firebase.firestore();
+    this.storage = firebase.storage();
+
   }
+
+  async loadImage(id: string, ref: string) {
+    // TODO: find a way to surpress Googles 404 error in the console
+    return this.storage.ref(ref).child(`${id}`).getDownloadURL().catch(() => { /* console.log(`Error getting menuItem id: ${error.code}`) */ })
+  }
+
+  async uploadImage(id: string, ref: string, image?: any): Promise<null> {
+    if (image == null) { return }
+
+    await this.storage.ref(ref).child(`${id}`).put(image)
+    .then(() => {
+      return
+    })
+    .catch(() => {
+      return
+    })
+}
+
 }
