@@ -19,7 +19,7 @@ export class CustomImageUploadComponent implements OnInit {
 
     const actualBtn = document.getElementById('actual-btn') as HTMLElement;
     const actualBtnInput = document.getElementById('actual-btn') as HTMLInputElement;
-    const customBtn = document.getElementById('actual-btn') as HTMLElement;
+    // const customBtn = document.getElementById('actual-btn') as HTMLElement;
 
     actualBtn.addEventListener("change", () => { this.uploadImage(actualBtnInput.files[0]) });
 
