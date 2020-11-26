@@ -40,6 +40,11 @@ export class FirebaseService {
 
   }
 
+  async loadImage(id: string, ref: string) {
+    // TODO: find a way to surpress Googles 404 error in the console
+    return this.storage.ref(ref).child(`${id}`).getDownloadURL().catch(() => { /* console.log(`Error getting menuItem id: ${error.code}`) */ })
+  }
+
   async uploadImage(id: string, ref: string, image?: any): Promise<null> {
     if (image == null) { return }
 

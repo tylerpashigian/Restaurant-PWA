@@ -61,6 +61,7 @@ export class RestaurantService {
     let subcollections = await this.firebaseService.database.collection("categories").doc(categoryId).collection("menuItems").get()
     subcollections.forEach(element => {
       let data = element.data()
+      // TODO: Decide if there's a better way to set an items id rather than rely on the Google generated element id
       let menuItem: MenuItem = {
         id: element.id,
         description: data.description,

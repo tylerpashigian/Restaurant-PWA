@@ -18,12 +18,8 @@ export class MenuItemCardComponent implements OnInit {
   }
 
   loadImage() {
-    this.firebaseService.storage.ref('menuItems').child(`${this.menuItem.id}`).getDownloadURL()
-    .then((url) => {
+    this.firebaseService.loadImage(this.menuItem.id, "menuItems").then(url => {
       this.menuItem.imageUrl = url
-    })
-    .catch((error) => {
-      // console.log(`Error getting menuItem id: ${error.code}`)
     })
   }
 

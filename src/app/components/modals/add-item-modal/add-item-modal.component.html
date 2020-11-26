@@ -19,11 +19,11 @@
             <ion-input formControlName="price" type="text" [placeholder]="itemPricePlaceholder"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="stacked">Description</ion-label>
+            <ion-label position="stacked">Description (Optional)</ion-label>
             <ion-textarea formControlName="description" placeholder="Enter a description"></ion-textarea>
           </ion-item>
           <ion-item>
-            <ion-label position="stacked">File</ion-label>
+            <ion-label position="stacked">Image (Optional)</ion-label>
             <app-custom-image-upload (image)="setImage($event)"></app-custom-image-upload>
           </ion-item>
       </form>
