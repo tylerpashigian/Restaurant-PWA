@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CreateRestaurantAccountPage } from './create-restaurant-account.page';
+import { IonicStorageModule } from '@ionic/storage';
 
 describe('CreateRestaurantAccountPage', () => {
   let component: CreateRestaurantAccountPage;
@@ -15,6 +16,7 @@ describe('CreateRestaurantAccountPage', () => {
       imports: [
         FormsModule,
         IonicModule.forRoot(),
+        IonicStorageModule.forRoot(),
         ReactiveFormsModule,
         RouterTestingModule
       ]
