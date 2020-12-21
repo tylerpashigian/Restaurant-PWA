@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 import * as firebase from "firebase/app";
 import "firebase/auth"
@@ -13,13 +14,19 @@ export class AuthService {
 
   public user: firebase.User;
 
-  constructor(private firebaseService: FirebaseService, private toastService: GenericToastService) {
+  constructor(private firebaseService: FirebaseService, private toastService: GenericToastService, private storage: Storage) {
     this.init()
   }
 
   init() {
     firebase.auth().onAuthStateChanged(user => {
       this.user = user;
+
+      this.storage.ready().then(() => {
+        const uid = this.user ? this.user.uid : null;
+        this.storage.set("user", uid);
+      });
+
     })
   }
 

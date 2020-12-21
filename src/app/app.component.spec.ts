@@ -5,6 +5,9 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { RouterTestingModule } from '@angular/router/testing';
+import { IonicStorageModule } from '@ionic/Storage';
+
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -22,6 +25,7 @@ describe('AppComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
+      imports: [ IonicStorageModule.forRoot(), RouterTestingModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: StatusBar, useValue: statusBarSpy },
