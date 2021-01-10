@@ -1,0 +1,23 @@
+<div class="drawer" #drawer>
+  <div class="wrapper">
+    <div class="header">
+      <div *ngIf="!isOpen" class="previewWrapper" #previewWrapper>
+        <ion-button class="openButton ion-text-uppercase" fill="outline" (click)=toggleDrawer()>
+          cart
+        </ion-button>
+        <!-- <p class="openButton ion-text-uppercase" >cart</p> -->
+      </div>
+      <ion-button *ngIf="isOpen" fill="clear" expand="full" (click)=toggleDrawer()>
+        <ion-icon name="chevron-down-outline" class="closeDrawerIcon"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="content">
+      <p>Scrollable Section</p>
+    </div>
+    <div class="footer">
+      <ion-button expand="block" class="checkoutButton">
+        Checkout
+      </ion-button>
+    </div>
+  </div>
+</div>

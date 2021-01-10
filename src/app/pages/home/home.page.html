@@ -33,7 +33,15 @@
                     <button type="submit" class="hidden"></button>
                 </form>
             </ion-list>
-
+            <ion-button (click)="openPreview()">
+              <p>Open Drawer Preview</p>
+            </ion-button>
+            <ion-button (click)="closeDrawer()">
+              <p>Close Drawer</p>
+            </ion-button>
+            <ion-button (click)="openDrawer()">
+              <p>Open Drawer</p>
+            </ion-button>
             <p>New Member? <a [routerLink]="['/create-restaurant-account']">Sign up here</a> or <a (click)="loginAnonymously()">Continue as Guest</a></p>
         </ion-col>
       </ion-row>

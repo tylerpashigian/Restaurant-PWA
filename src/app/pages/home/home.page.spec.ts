@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { HomePage } from './home.page';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { IonicStorageModule } from '@ionic/storage';
 
 describe('HomePage', () => {
@@ -21,8 +20,7 @@ describe('HomePage', () => {
         IonicStorageModule.forRoot(),
         ReactiveFormsModule,
         RouterTestingModule
-      ],
-      providers: [AuthService]
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomePage);

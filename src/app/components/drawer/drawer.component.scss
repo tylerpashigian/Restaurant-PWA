@@ -1,0 +1,56 @@
+.drawer {
+  position: absolute;
+  box-shadow: 0px 4px 16px rgba(0,0,0,0.12);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  width: 100vw;
+  top: 100vh;
+  height: 90%;
+  background-color: var(--ion-color-dark-blue);
+}
+
+.previewWrapper {
+  // height: 10%;
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+.closeDrawerIcon {
+  color: #f1faee;
+}
+
+.openButton {
+  --color: white;
+  --border-color: white;
+  --border-radius: 25px;
+  margin-left: auto;
+}
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  bottom: env(safe-area-inset-bottom);
+}
+
+.content {
+  flex: 1;
+  overflow: scroll;
+  padding: 1em;
+}
+
+.checkoutButton {
+  --background: #f1faee;
+  --color: #457b9d;
+  --border-radius: 25px;
+}
+
+.footer {
+  align-items: center;
+  justify-content: center;
+  padding-bottom: calc(3vh + env(safe-area-inset-bottom));
+  padding-left: 5em;
+  padding-right: 5em;
+}
