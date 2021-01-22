@@ -6,7 +6,7 @@ import { DrawerState } from 'src/app/models/drawerState';
 })
 export class CartService {
 
-  public drawerState: DrawerState
+  public drawerState: DrawerState = DrawerState.Closed
 
   constructor() { }
 }

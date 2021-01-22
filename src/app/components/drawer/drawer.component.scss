@@ -1,19 +1,18 @@
 .drawer {
   position: absolute;
-  box-shadow: 0px 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0px -4px 5px rgba(0,0,0,0.15);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   width: 100vw;
-  top: 100vh;
-  height: 90%;
+  top: calc(100vh + 10px);
+  height: 95%;
   background-color: var(--ion-color-dark-blue);
 }
 
 .previewWrapper {
-  // height: 10%;
   display: flex;
   align-items: center;
-  padding: 0.5em;
+  padding: var(--ion-spacing-small);
   margin-bottom: env(safe-area-inset-bottom);
 }
 
@@ -22,17 +21,19 @@
 }
 
 .openButton {
-  --color: white;
-  --border-color: white;
+  --background-activated: var(--ion-color-neutral);
+  --border-color: var(--ion-color-neutral);
   --border-radius: 25px;
+  --color: white;
+  --color-activated: var(--ion-color-dark-blue);
   margin-left: auto;
 }
 
 .wrapper {
-  height: 100%;
+  bottom: env(safe-area-inset-bottom);
   display: flex;
   flex-direction: column;
-  bottom: env(safe-area-inset-bottom);
+  height: 100%;
 }
 
 .content {
@@ -42,15 +43,16 @@
 }
 
 .checkoutButton {
-  --background: #f1faee;
-  --color: #457b9d;
+  --background: var(--ion-color-neutral);
+  --background-activated: var(--ion-color-light-blue);
   --border-radius: 25px;
+  --color: #457b9d;
 }
 
 .footer {
   align-items: center;
   justify-content: center;
   padding-bottom: calc(3vh + env(safe-area-inset-bottom));
-  padding-left: 5em;
-  padding-right: 5em;
+  padding-left: var(--ion-spacing-large);
+  padding-right: var(--ion-spacing-large);
 }

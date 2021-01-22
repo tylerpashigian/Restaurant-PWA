@@ -5,9 +5,8 @@
         <ion-button class="openButton ion-text-uppercase" fill="outline" (click)=toggleDrawer()>
           cart
         </ion-button>
-        <!-- <p class="openButton ion-text-uppercase" >cart</p> -->
       </div>
-      <ion-button *ngIf="isOpen" fill="clear" expand="full" (click)=toggleDrawer()>
+      <ion-button *ngIf="isOpen" fill="clear" expand="full" (click)=openPreview()>
         <ion-icon name="chevron-down-outline" class="closeDrawerIcon"></ion-icon>
       </ion-button>
     </div>

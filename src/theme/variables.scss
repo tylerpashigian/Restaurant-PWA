@@ -82,6 +82,11 @@
   --ion-color-neutral: #f1faee;
   --ion-color-orange: #f06543;
 
+  /** Spacing **/
+  --ion-spacing-small: 1em;
+  --ion-spacing-medium: 2em;
+  --ion-spacing-large: 5em;
+
 }
 
 @media (prefers-color-scheme: dark) {
