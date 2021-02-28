@@ -1,0 +1,16 @@
+.demoButtonSection {
+    height: 40vh;
+    background-color: darkgrey;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.dynamicDemoContent {
+    height: 60vh;
+    background-color: lightgray;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}

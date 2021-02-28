@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import * as hash from 'hash.js'
 
 import { AuthService } from '../../services/auth/auth.service'
-import { CartService } from 'src/app/services/cart/cart.service';
-import { DrawerState } from 'src/app/models/drawerState';
+import { DrawerService } from 'src/app/services/drawer/drawer.service';
+import { DrawerState, DrawerType } from 'src/app/models/drawerState';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +18,7 @@ export class HomePage {
   public emailPlaceholder: string = "email";
   public passwordPlaceholder: string = "password"
 
-  constructor(private authService: AuthService, private cartService: CartService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private authService: AuthService, private drawerService: DrawerService, private formBuilder: FormBuilder, private router: Router) {
     this.createForms()
   }
 
@@ -30,16 +30,18 @@ export class HomePage {
     });
   }
 
+  setDemoDrawerType() { this.drawerService.drawerType = DrawerType.Demo }
+
   openPreview() {
-    this.cartService.drawerState = DrawerState.Preview
+    this.drawerService.drawerState = DrawerState.Preview
   }
 
   closeDrawer() {
-    this.cartService.drawerState = DrawerState.Closed
+    this.drawerService.drawerState = DrawerState.Closed
   }
 
   openDrawer() {
-    this.cartService.drawerState = DrawerState.Open
+    this.drawerService.drawerState = DrawerState.Open
   }
 
   // TODO: move this to the user login flow, this was just a POC to test the Google SDK

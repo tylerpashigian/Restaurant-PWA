@@ -1,0 +1,20 @@
+<ion-content>
+  <div class="dynamicDemoContent">
+    <p *ngIf="!showTemplate">Hidden Template</p>
+    <div #contentWrapper >
+    <!-- <div #contentWrapper *ngIf="showTemplate"> -->
+      <ng-template drawerHost></ng-template>
+    </div>
+  </div>
+  <div class="demoButtonSection">
+    <ion-button (click)="setDemo1View()" expand="block" fill="clear" shape="round">
+      Demo View 1
+    </ion-button>
+    <ion-button (click)="setDemo2View()" expand="block" fill="clear" shape="round">
+      Demo View 2
+    </ion-button>
+    <ion-button (click)="hideTemplate()" expand="block" fill="clear" shape="round">
+      Hide Template
+    </ion-button>
+  </div>
+</ion-content>

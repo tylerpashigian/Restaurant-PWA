@@ -3,3 +3,8 @@ export enum DrawerState {
   Open,
   Preview
 }
+
+export enum DrawerType {
+  Cart,
+  Demo
+}

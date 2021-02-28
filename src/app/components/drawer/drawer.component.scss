@@ -13,20 +13,15 @@
   display: flex;
   align-items: center;
   padding: var(--ion-spacing-small);
-  margin-bottom: env(safe-area-inset-bottom);
 }
 
 .closeDrawerIcon {
   color: #f1faee;
 }
 
-.openButton {
-  --background-activated: var(--ion-color-neutral);
-  --border-color: var(--ion-color-neutral);
-  --border-radius: 25px;
-  --color: white;
-  --color-activated: var(--ion-color-dark-blue);
-  margin-left: auto;
+.header {
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper {

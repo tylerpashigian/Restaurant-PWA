@@ -1,7 +1,21 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input, HostListener } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, AfterViewInit, ViewChild, ElementRef, Input, HostListener, Type, NgZone } from '@angular/core';
 import { GestureController, Platform } from '@ionic/angular';
-import { DrawerState } from 'src/app/models/drawerState';
-import { CartService } from 'src/app/services/cart/cart.service';
+import { DrawerDirective } from './drawer.directive';
+import { DrawerService } from 'src/app/services/drawer/drawer.service';
+import { DrawerState, DrawerType } from 'src/app/models/drawerState';
+import { DemoComponent } from '../demo/demo.component';
+import { CartComponent } from './cart/cart/cart.component';
+import { DrawerPreviewDirective } from './drawer-preview.directive';
+import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
+
+export class AdItem {
+  constructor(public component: Type<any>, public data: any, public openPreview: () => void = () => {}) {}
+}
+
+export interface AdComponent {
+  data: any;
+  openDrawerCallback?: () => void
+}
 
 @Component({
   selector: 'app-drawer',
@@ -12,6 +26,10 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('drawer', { read: ElementRef }) drawer: ElementRef;
   @ViewChild('previewWrapper', { read: ElementRef }) previewWrapper: ElementRef;
+  @ViewChild('header', { read: ElementRef }) header: ElementRef;
+
+  @ViewChild(DrawerDirective, {static: true}) drawerHost: DrawerDirective;
+  @ViewChild(DrawerPreviewDirective, {static: true}) drawerPreviewHost: DrawerPreviewDirective;
 
   // @HostListener('window:orientationchange', ['$event'])
   // onOrientationChange(event) {
@@ -28,6 +46,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    this.setScreenDimmensions();
     this.platform.ready().then(() => {
       if (this.platform.isPortrait()) {
         this.drawerHeight = this.screenHeight;
@@ -36,7 +55,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       }
       // this.drawerHeight = this.platform.height();
       // console.log(`Drawer Height: ${this.platform.height()}`);
-      this.setDrawerState(this.cartService.drawerState, false);
+      this.setDrawerState(this.drawerService.drawerState, false, false);
     })
   }
 
@@ -49,10 +68,15 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   @Input()
   set drawerState(state: DrawerState) {
-    this.setDrawerState(state, true)
+    this.setDrawerState(state, true, true)
   }
 
-  constructor(private cartService: CartService, private gestureController: GestureController, private platform: Platform) { }
+  @Input()
+  set drawerType(type: DrawerType) {
+    this.loadDynamicComponent(type);
+  }
+
+  constructor(private drawerService: DrawerService, private componentFactoryResolver: ComponentFactoryResolver, private gestureController: GestureController, private platform: Platform, private ngZone: NgZone) { }
 
   ngOnInit() {
     this.platform.ready().then(() => {
@@ -63,6 +87,51 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.initGesture();
     this.previewHeight = this.previewWrapper.nativeElement.offsetHeight;
+  }
+
+  loadDynamicComponent(type: DrawerType): Promise<void> {
+    return new Promise((resolve, reject) => {
+      var dynamicPreviewComponent: AdItem
+      var dynamicComponent: AdItem
+
+      switch(type) {
+        case DrawerType.Cart:
+          dynamicPreviewComponent = new AdItem(CartPreviewComponent, { name: "Cart Preview" });
+          dynamicComponent = new AdItem(CartComponent, { name: "Cart Body" }, this.setPreviewState);
+          break;
+        case DrawerType.Demo:
+          dynamicPreviewComponent = new AdItem(DemoComponent, { name: "Test Preview" });
+          dynamicComponent = new AdItem(DemoComponent, { name: "Tyler Pashigian" });
+          break;
+        default:
+          break;
+      }
+
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(dynamicComponent.component);
+      const viewContainerRef = this.drawerHost.viewContainerRef;
+      viewContainerRef.clear();
+
+      const componentRef = viewContainerRef.createComponent<AdComponent>(componentFactory);
+      componentRef.instance.data = dynamicComponent.data;
+
+      const componentPreviewFactory = this.componentFactoryResolver.resolveComponentFactory(dynamicPreviewComponent.component);
+      const viewPreviewContainerRef = this.drawerPreviewHost.viewContainerRef;
+      viewPreviewContainerRef.clear();
+
+      const componentPreviewRef = viewPreviewContainerRef.createComponent<AdComponent>(componentPreviewFactory);
+      componentPreviewRef.instance.data = dynamicPreviewComponent.data;
+      componentPreviewRef.instance.openDrawerCallback = this.setOpenState;
+
+      try {
+        // console.log(`Header height: ${this.header.nativeElement.offsetHeight}`);
+        // let timer = setTimeout(resolve, 100);
+        setTimeout(() => {
+          this.ngZone.run(() => {
+            resolve();
+          });
+        }, 100);
+      } catch(error) { reject(); }
+    })
   }
 
   initGesture() {
@@ -99,17 +168,19 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleDrawer() {
-    if (this.cartService.drawerState == DrawerState.Open) {
-      this.closeDrawer();
-    } else {
-      this.openDrawer();
-    }
-  }
+  setDrawerState(state: DrawerState, animate: boolean, rerender: boolean) {
 
-  setDrawerState(state: DrawerState, animate: boolean) {
-    const drawer = this.drawer.nativeElement;
-    drawer.style.transition = animate ? '.4s ease-out' : '';
+    try  {
+      const drawer = this.drawer.nativeElement;
+      drawer.style.transition = animate ? '.4s ease-out' : '';
+    } catch { console.log("Failed to find drawer") }
+
+    if (rerender) {
+      this.isOpen = this.drawerService.drawerState != DrawerState.Preview
+      this.previewWrapper.nativeElement.style.display = state != DrawerState.Open ? "flex" : "none"
+      this.loadDynamicComponent(this.drawerService.drawerType)
+    }
+
     switch (state) {
       case 0:
         this.closeDrawer();
@@ -125,26 +196,46 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  outerHeight(element) {
+    const height = element.offsetHeight,
+        style = window.getComputedStyle(element)
+
+    return ['top', 'bottom']
+        .map(side => parseInt(style[`margin-${side}`]))
+        .reduce((total, side) => total + side, height)
+  }
+
+  setOpenState() {
+    this.drawerService.drawerState = DrawerState.Open
+  }
+
+  setPreviewState() {
+    this.drawerService.drawerState = DrawerState.Preview
+  }
+
   openPreview() {
     const drawer = this.drawer.nativeElement;
-    this.isOpen = false;
-    try {this.previewHeight = this.previewWrapper.nativeElement.offsetHeight;} catch {}
-    drawer.style.top = `calc(${this.drawerHeight - this.previewHeight}px - env(safe-area-inset-bottom))`;
-    this.cartService.drawerState = DrawerState.Preview
+    try {
+      this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
+        this.previewHeight = this.outerHeight(this.header.nativeElement);
+
+        let deltaHeight: number = this.drawerHeight - this.previewHeight
+        drawer.style.top = `calc(${deltaHeight}px - env(safe-area-inset-bottom))`;
+        this.drawerService.drawerState = DrawerState.Preview
+      });
+    } catch { console.log("Error recalculating height") }
   }
 
   openDrawer() {
-    const drawer = this.drawer.nativeElement;
-    drawer.style.top = `${this.drawerHeight*.05}px`;
-    this.isOpen = true;
-    this.cartService.drawerState = DrawerState.Open
+      const drawer = this.drawer.nativeElement;
+      drawer.style.top = `${this.drawerHeight*.05}px`;
+      this.drawerService.drawerState = DrawerState.Open
   }
 
   closeDrawer() {
-    const drawer = this.drawer.nativeElement;
-    drawer.style.top = `${this.drawerHeight + 10}px`
-    this.isOpen = false;
-    this.cartService.drawerState = DrawerState.Closed
+      const drawer = this.drawer.nativeElement;
+      drawer.style.top = `${this.drawerHeight}px`
+      this.drawerService.drawerState = DrawerState.Closed
   }
 
 }

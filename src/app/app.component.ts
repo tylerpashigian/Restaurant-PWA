@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { CartService } from './services/cart/cart.service';
+import { DrawerService } from './services/drawer/drawer.service';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +14,11 @@ import { CartService } from './services/cart/cart.service';
 })
 export class AppComponent {
 
-  get drawerState() { return this.cart.drawerState }
+  get drawerState() { return this.drawer.drawerState }
+  get drawerType() { return this.drawer.drawerType }
 
   constructor(
-    private cart: CartService,
+    private drawer: DrawerService,
     private platform: Platform,
     private router: Router,
     private splashScreen: SplashScreen,
