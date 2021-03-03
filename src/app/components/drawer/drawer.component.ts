@@ -1,4 +1,14 @@
-import { Component, ComponentFactoryResolver, OnInit, AfterViewInit, ViewChild, ElementRef, Input, HostListener, Type, NgZone } from '@angular/core';
+import { 
+  AfterViewInit, 
+  Component, 
+  ComponentFactoryResolver, 
+  ElementRef, 
+  HostListener, 
+  Input, 
+  OnInit, 
+  Type, 
+  ViewChild 
+} from '@angular/core';
 import { GestureController, Platform } from '@ionic/angular';
 import { DrawerDirective } from './drawer.directive';
 import { DrawerService } from 'src/app/services/drawer/drawer.service';
@@ -8,11 +18,15 @@ import { CartComponent } from './cart/cart/cart.component';
 import { DrawerPreviewDirective } from './drawer-preview.directive';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
 
-export class AdItem {
-  constructor(public component: Type<any>, public data: any, public openPreview: () => void = () => {}) {}
+export class DrawerItem {
+  constructor(
+    public component: Type<any>, 
+    public data: any, 
+    public openPreview: () => void = () => {}
+  ) {}
 }
 
-export interface AdComponent {
+export interface Drawer {
   data: any;
   openDrawerCallback?: () => void
 }
@@ -46,21 +60,10 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.setScreenDimmensions();
-    this.platform.ready().then(() => {
-      if (this.platform.isPortrait()) {
-        this.drawerHeight = this.screenHeight;
-      } else {
-        this.drawerHeight = this.screenWidth;
-      }
-      // this.drawerHeight = this.platform.height();
-      // console.log(`Drawer Height: ${this.platform.height()}`);
-      this.setDrawerState(this.drawerService.drawerState, false, false);
-    })
+    this.setDrawerState(this.drawerService.drawerState, false, false);
   }
 
   isOpen: boolean = false;
-  drawerHeight: number = this.platform.height();
   previewHeight: number;
   deltaY: number = 0
   screenHeight: number;
@@ -73,14 +76,18 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   @Input()
   set drawerType(type: DrawerType) {
-    this.loadDynamicComponent(type);
+    this.setDrawerState(this.drawerService.drawerState, true, true)
   }
 
-  constructor(private drawerService: DrawerService, private componentFactoryResolver: ComponentFactoryResolver, private gestureController: GestureController, private platform: Platform, private ngZone: NgZone) { }
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private drawerService: DrawerService, 
+    private gestureController: GestureController, 
+    private platform: Platform
+  ) { }
 
   ngOnInit() {
     this.platform.ready().then(() => {
-      this.setScreenDimmensions();
     })
   }
 
@@ -91,17 +98,17 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   loadDynamicComponent(type: DrawerType): Promise<void> {
     return new Promise((resolve, reject) => {
-      var dynamicPreviewComponent: AdItem
-      var dynamicComponent: AdItem
+      var dynamicPreviewComponent: DrawerItem
+      var dynamicComponent: DrawerItem
 
       switch(type) {
         case DrawerType.Cart:
-          dynamicPreviewComponent = new AdItem(CartPreviewComponent, { name: "Cart Preview" });
-          dynamicComponent = new AdItem(CartComponent, { name: "Cart Body" }, this.setPreviewState);
+          dynamicPreviewComponent = new DrawerItem(CartPreviewComponent, { name: "Cart Preview" });
+          dynamicComponent = new DrawerItem(CartComponent, { name: "Cart Body" }, this.setPreviewState);
           break;
         case DrawerType.Demo:
-          dynamicPreviewComponent = new AdItem(DemoComponent, { name: "Test Preview" });
-          dynamicComponent = new AdItem(DemoComponent, { name: "Tyler Pashigian" });
+          dynamicPreviewComponent = new DrawerItem(DemoComponent, { name: "Test Preview" });
+          dynamicComponent = new DrawerItem(DemoComponent, { name: "Tyler Pashigian" });
           break;
         default:
           break;
@@ -111,25 +118,20 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       const viewContainerRef = this.drawerHost.viewContainerRef;
       viewContainerRef.clear();
 
-      const componentRef = viewContainerRef.createComponent<AdComponent>(componentFactory);
+      const componentRef = viewContainerRef.createComponent<Drawer>(componentFactory);
       componentRef.instance.data = dynamicComponent.data;
 
       const componentPreviewFactory = this.componentFactoryResolver.resolveComponentFactory(dynamicPreviewComponent.component);
       const viewPreviewContainerRef = this.drawerPreviewHost.viewContainerRef;
       viewPreviewContainerRef.clear();
 
-      const componentPreviewRef = viewPreviewContainerRef.createComponent<AdComponent>(componentPreviewFactory);
+      const componentPreviewRef = viewPreviewContainerRef.createComponent<Drawer>(componentPreviewFactory);
       componentPreviewRef.instance.data = dynamicPreviewComponent.data;
       componentPreviewRef.instance.openDrawerCallback = this.setOpenState;
 
       try {
-        // console.log(`Header height: ${this.header.nativeElement.offsetHeight}`);
-        // let timer = setTimeout(resolve, 100);
-        setTimeout(() => {
-          this.ngZone.run(() => {
-            resolve();
-          });
-        }, 100);
+        // This feels hacky, might look into NgZone docs for alternative solution
+        setTimeout(resolve, 100);
       } catch(error) { reject(); }
     })
   }
@@ -149,23 +151,13 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   moveEvent(ev) {
     const drawer = this.drawer.nativeElement;
     const y = this.deltaY + ev.deltaY;
-    if (y < -this.drawerHeight * .9) return;
+    if (y < -this.platform.height() * .9) return;
     if (y > 0) return;
     // drawer.style.transform = `translateY(${y}px)`;
   }
 
   endEvent(ev) {
     this.deltaY = this.deltaY + ev.deltaY;
-  }
-
-  setScreenDimmensions() {
-    if (this.platform.isPortrait()) {
-      this.screenHeight = this.platform.height()
-      this.screenWidth = this.platform.width()
-    } else {
-      this.screenWidth = this.platform.height()
-      this.screenHeight = this.platform.width()
-    }
   }
 
   setDrawerState(state: DrawerState, animate: boolean, rerender: boolean) {
@@ -219,7 +211,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
         this.previewHeight = this.outerHeight(this.header.nativeElement);
 
-        let deltaHeight: number = this.drawerHeight - this.previewHeight
+        let deltaHeight: number = this.platform.height() - this.previewHeight
         drawer.style.top = `calc(${deltaHeight}px - env(safe-area-inset-bottom))`;
         this.drawerService.drawerState = DrawerState.Preview
       });
@@ -227,15 +219,19 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   }
 
   openDrawer() {
+    this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
       const drawer = this.drawer.nativeElement;
-      drawer.style.top = `${this.drawerHeight*.05}px`;
+      drawer.style.top = `${this.platform.height()*.05}px`;
       this.drawerService.drawerState = DrawerState.Open
+    });
   }
 
   closeDrawer() {
+    this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
       const drawer = this.drawer.nativeElement;
-      drawer.style.top = `${this.drawerHeight}px`
+      drawer.style.top = `${this.platform.height()}px`
       this.drawerService.drawerState = DrawerState.Closed
+    });
   }
 
 }
