@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DemoPageRoutingModule } from './demo-routing.module';
 
 import { DemoPage } from './demo.page';
-import { DrawerDirective } from 'src/app/components/drawer/drawer.directive';
+import { DrawerDirective } from 'src/app/directives/drawer/drawer.directive';
 
 @NgModule({
   imports: [

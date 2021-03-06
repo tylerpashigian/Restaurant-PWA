@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ElementRef, Input, HostListener, Type } from '@angular/core';
 import { DemoComponent } from 'src/app/components/demo/demo.component';
-import { DrawerDirective } from 'src/app/components/drawer/drawer.directive';
+import { DrawerDirective } from 'src/app/directives/drawer/drawer.directive';
 import { MenuItem } from 'src/app/models/menuItem';
 
 export class DemoItem {

@@ -10,12 +10,12 @@ import {
   ViewChild 
 } from '@angular/core';
 import { GestureController, Platform } from '@ionic/angular';
-import { DrawerDirective } from './drawer.directive';
+import { DrawerDirective } from '../../directives/drawer/drawer.directive';
 import { DrawerService } from 'src/app/services/drawer/drawer.service';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
 import { DemoComponent } from '../demo/demo.component';
 import { CartComponent } from './cart/cart/cart.component';
-import { DrawerPreviewDirective } from './drawer-preview.directive';
+import { DrawerPreviewDirective } from '../../directives/drawerPreview/drawer-preview.directive';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
 
 export class DrawerItem {

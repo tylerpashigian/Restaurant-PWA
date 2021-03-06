@@ -7,9 +7,9 @@ import { CustomImageUploadComponent } from './util/custom-image-upload/custom-im
 import { DrawerComponent } from './drawer/drawer.component';
 import { MenuItemCardComponent } from './cards/menu-item-card/menu-item-card.component'
 import { MenuItemsComponent } from './menu-items/menu-items.component';
-import { DrawerDirective } from './drawer/drawer.directive'
+import { DrawerDirective } from '../directives/drawer/drawer.directive'
 import { DemoComponent } from './demo/demo.component';
-import { DrawerPreviewDirective } from './drawer/drawer-preview.directive';
+import { DrawerPreviewDirective } from '../directives/drawerPreview/drawer-preview.directive';
 import { CartComponent } from './drawer/cart/cart/cart.component';
 import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.component';
 
