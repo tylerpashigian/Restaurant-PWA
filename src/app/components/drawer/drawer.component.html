@@ -1,23 +1,16 @@
 <div class="drawer" #drawer>
   <div class="wrapper">
-    <div class="header">
-      <div *ngIf="isOpen" class="closeButton">
-        <ion-button  fill="clear" expand="full" (click)=setPreviewState()>
-          <ion-icon name="chevron-down-outline" class="closeDrawerIcon"></ion-icon>
-        </ion-button>
-      </div>
+    <div *ngIf="isOpen" class="closeButton">
+      <ion-button  fill="clear" expand="full" (click)=setPreviewState()>
+        <ion-icon name="chevron-down-outline" class="closeDrawerIcon"></ion-icon>
+      </ion-button>
+    </div>
 
-      <div [ngClass]="{previewWrapper: !isOpen}" #previewWrapper>
-        <ng-template drawerPreviewHost></ng-template>
-      </div>
+    <div [ngClass]="{previewWrapper: !isOpen}" #previewWrapper>
+      <ng-template drawerPreviewHost></ng-template>
     </div>
     <div class="content">
       <ng-template drawerHost></ng-template>
-    </div>
-    <div class="footer">
-      <ion-button expand="block" class="checkoutButton">
-        Checkout
-      </ion-button>
     </div>
   </div>
 </div>

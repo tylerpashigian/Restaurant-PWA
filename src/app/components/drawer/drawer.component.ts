@@ -194,7 +194,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
         this.previewHeight = this.outerHeight(this.previewWrapper.nativeElement);
         let deltaHeight: number = this.platform.height() - this.previewHeight
-        drawer.style.top = `calc(${deltaHeight}px - env(safe-area-inset-bottom))`;
+        drawer.style.top = `${deltaHeight}px`;
       });
   }
 
@@ -208,7 +208,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   closeDrawer() {
     this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
       const drawer = this.drawer.nativeElement;
-      drawer.style.top = `${this.platform.height()}px`
+      drawer.style.top = `${this.platform.height() + 20}px`
     });
   }
 
