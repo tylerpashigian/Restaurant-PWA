@@ -30,18 +30,18 @@ export class HomePage {
     });
   }
 
-  setDemoDrawerType() { this.drawerService.drawerType = DrawerType.Demo }
+  setDemoDrawerType() { this.drawerService.setType(DrawerType.Demo) }
 
   openPreview() {
-    this.drawerService.drawerState = DrawerState.Preview
+    this.drawerService.setState(DrawerState.Preview)
   }
 
   closeDrawer() {
-    this.drawerService.drawerState = DrawerState.Closed
+    this.drawerService.setState(DrawerState.Closed)
   }
 
   openDrawer() {
-    this.drawerService.drawerState = DrawerState.Open
+    this.drawerService.setState(DrawerState.Open)
   }
 
   // TODO: move this to the user login flow, this was just a POC to test the Google SDK

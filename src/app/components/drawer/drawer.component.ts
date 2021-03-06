@@ -40,23 +40,9 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('drawer', { read: ElementRef }) drawer: ElementRef;
   @ViewChild('previewWrapper', { read: ElementRef }) previewWrapper: ElementRef;
-  @ViewChild('header', { read: ElementRef }) header: ElementRef;
 
   @ViewChild(DrawerDirective, {static: true}) drawerHost: DrawerDirective;
   @ViewChild(DrawerPreviewDirective, {static: true}) drawerPreviewHost: DrawerPreviewDirective;
-
-  // @HostListener('window:orientationchange', ['$event'])
-  // onOrientationChange(event) {
-  //   this.platform.ready().then(() => {
-  //     if (this.platform.isLandscape()) {
-  //       console.log(`Orientation changed to portrait`)
-  //       this.drawerHeight = this.screenHeight
-  //     } else {
-  //       console.log(`Orientation changed to landscape`)
-  //       this.drawerHeight = this.screenWidth
-  //     }
-  //   })
-  // }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -66,18 +52,9 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   isOpen: boolean = false;
   previewHeight: number;
   deltaY: number = 0
-  screenHeight: number;
-  screenWidth: number;
 
-  @Input()
-  set drawerState(state: DrawerState) {
-    this.setDrawerState(state, true, true)
-  }
-
-  @Input()
-  set drawerType(type: DrawerType) {
-    this.setDrawerState(this.drawerService.drawerState, true, true)
-  }
+  drawerType: DrawerType;
+  drawerState: DrawerState;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -87,13 +64,21 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.platform.ready().then(() => {
+    this.drawerType = this.drawerService.drawerType;
+    this.drawerService.drawerTypeChanged.subscribe((type: DrawerType) => {
+      this.drawerType = type;
+      this.setDrawerState(this.drawerState, true, true);
+    })
+
+    this.drawerState = this.drawerService.drawerState;
+    this.drawerService.drawerStateChanged.subscribe((state: DrawerState) => {
+      this.drawerState = state;
+      this.setDrawerState(state, true, true);
     })
   }
 
   ngAfterViewInit() {
     this.initGesture();
-    this.previewHeight = this.previewWrapper.nativeElement.offsetHeight;
   }
 
   loadDynamicComponent(type: DrawerType): Promise<void> {
@@ -169,8 +154,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
     if (rerender) {
       this.isOpen = this.drawerService.drawerState != DrawerState.Preview
-      this.previewWrapper.nativeElement.style.display = state != DrawerState.Open ? "flex" : "none"
-      this.loadDynamicComponent(this.drawerService.drawerType)
+      this.previewWrapper.nativeElement.style.display = state != DrawerState.Open ? "block" : "none"
     }
 
     switch (state) {
@@ -198,31 +182,26 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   }
 
   setOpenState() {
-    this.drawerService.drawerState = DrawerState.Open
+    this.drawerService.setState(DrawerState.Open)
   }
 
   setPreviewState() {
-    this.drawerService.drawerState = DrawerState.Preview
+    this.drawerService.setState(DrawerState.Preview)
   }
 
   openPreview() {
-    const drawer = this.drawer.nativeElement;
-    try {
+      const drawer = this.drawer.nativeElement;
       this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
-        this.previewHeight = this.outerHeight(this.header.nativeElement);
-
+        this.previewHeight = this.outerHeight(this.previewWrapper.nativeElement);
         let deltaHeight: number = this.platform.height() - this.previewHeight
         drawer.style.top = `calc(${deltaHeight}px - env(safe-area-inset-bottom))`;
-        this.drawerService.drawerState = DrawerState.Preview
       });
-    } catch { console.log("Error recalculating height") }
   }
 
   openDrawer() {
     this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
       const drawer = this.drawer.nativeElement;
       drawer.style.top = `${this.platform.height()*.05}px`;
-      this.drawerService.drawerState = DrawerState.Open
     });
   }
 
@@ -230,7 +209,6 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
       const drawer = this.drawer.nativeElement;
       drawer.style.top = `${this.platform.height()}px`
-      this.drawerService.drawerState = DrawerState.Closed
     });
   }
 

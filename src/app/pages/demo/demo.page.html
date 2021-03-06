@@ -1,9 +1,9 @@
 <ion-content>
   <div class="dynamicDemoContent">
-    <p *ngIf="!showTemplate">Hidden Template</p>
-    <div #contentWrapper >
+    <!-- <p *ngIf="!showTemplate">Hidden Template</p> -->
+    <div #contentWrapper>
     <!-- <div #contentWrapper *ngIf="showTemplate"> -->
-      <ng-template drawerHost></ng-template>
+      <ng-template [ngIf]="showTemplate" drawerHost></ng-template>
     </div>
   </div>
   <div class="demoButtonSection">

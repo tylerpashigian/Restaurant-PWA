@@ -35,8 +35,9 @@ export class DemoPage implements OnInit {
   ngOnInit() {}
 
   loadDynamicComponent(type: DemoType): Promise<void> {
+    this.showTemplate = true;
     return new Promise((resolve, reject) => {
-      this.showTemplate = true;
+      
       var dynamicComponent: DemoItem
       this.contentWrapper.nativeElement.style = {}
       switch(type) {
@@ -91,21 +92,32 @@ export class DemoPage implements OnInit {
         .reduce((total, side) => total + side, height)
   }
 
+  showTemplatePromise() {
+    return new Promise((resolve, reject) => {
+      this.showTemplate = true;
+      setTimeout(resolve, 1);
+    })
+  }
+
   setDemo1View() {
-    this.loadDynamicComponent(DemoType.One).then(() => {
-      this.contentWrapper.nativeElement.style.padding = "16px";
-      console.log(this.outerHeight(this.contentWrapper.nativeElement));
+    this.showTemplatePromise().then(() => {
+      this.loadDynamicComponent(DemoType.One).then(() => {
+        this.contentWrapper.nativeElement.style.padding = "16px";
+        console.log(this.outerHeight(this.contentWrapper.nativeElement));
+      })
     })
   }
 
   setDemo2View() {
-    this.loadDynamicComponent(DemoType.Two)
-    this.contentWrapper.nativeElement.style.padding = "24px";
-    console.log(this.contentWrapper.nativeElement.offsetHeight);
+    this.loadDynamicComponent(DemoType.Two).then(() => {
+      this.contentWrapper.nativeElement.style.padding = "24px";
+      console.log(this.contentWrapper.nativeElement.offsetHeight);
+    })
   }
 
   hideTemplate() {
     this.showTemplate = false;
+    this.contentWrapper.nativeElement.style = {}
   }
 
 }
