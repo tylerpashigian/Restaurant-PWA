@@ -8,7 +8,6 @@ import { DrawerComponent } from './drawer/drawer.component';
 import { MenuItemCardComponent } from './cards/menu-item-card/menu-item-card.component'
 import { MenuItemsComponent } from './menu-items/menu-items.component';
 import { DrawerDirective } from '../directives/drawer/drawer.directive'
-import { DemoComponent } from './demo/demo.component';
 import { DrawerPreviewDirective } from '../directives/drawerPreview/drawer-preview.directive';
 import { CartComponent } from './drawer/cart/cart/cart.component';
 import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.component';
@@ -25,7 +24,6 @@ import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.co
     CartComponent,
     CartPreviewComponent,
     CustomImageUploadComponent,
-    DemoComponent,
     DrawerComponent,
     MenuItemCardComponent,
     MenuItemsComponent,
@@ -37,7 +35,6 @@ import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.co
     CartComponent,
     CartPreviewComponent,
     CustomImageUploadComponent,
-    DemoComponent,
     DrawerComponent,
     MenuItemCardComponent,
     MenuItemsComponent

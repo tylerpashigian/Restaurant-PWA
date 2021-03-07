@@ -6,5 +6,4 @@ export enum DrawerState {
 
 export enum DrawerType {
   Cart,
-  Demo
 }

@@ -30,8 +30,6 @@ export class HomePage {
     });
   }
 
-  setDemoDrawerType() { this.drawerService.setType(DrawerType.Demo) }
-
   openPreview() {
     this.drawerService.setState(DrawerState.Preview)
   }

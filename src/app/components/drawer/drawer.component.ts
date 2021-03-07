@@ -11,7 +11,6 @@ import { GestureController, Platform } from '@ionic/angular';
 import { DrawerDirective } from '../../directives/drawer/drawer.directive';
 import { DrawerService } from 'src/app/services/drawer/drawer.service';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
-import { DemoComponent } from '../demo/demo.component';
 import { CartComponent } from './cart/cart/cart.component';
 import { DrawerPreviewDirective } from '../../directives/drawerPreview/drawer-preview.directive';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
@@ -76,10 +75,6 @@ export class DrawerComponent implements OnInit, AfterViewInit {
         case DrawerType.Cart:
           dynamicPreviewComponent = new DynamicDrawerItem(CartPreviewComponent, { name: "Cart Preview" });
           dynamicComponent = new DynamicDrawerItem(CartComponent, { name: "Cart Body" }, this.setPreviewState);
-          break;
-        case DrawerType.Demo:
-          dynamicPreviewComponent = new DynamicDrawerItem(DemoComponent, { name: "Test Preview" });
-          dynamicComponent = new DynamicDrawerItem(DemoComponent, { name: "Tyler Pashigian" });
           break;
         default:
           break;
