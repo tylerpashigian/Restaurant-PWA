@@ -46,7 +46,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.setDrawerState(this.drawerService.drawerState, false, false);
+    this.setDrawerState(this.drawerService.drawerState, false);
   }
 
   isOpen: boolean = false;
@@ -67,14 +67,14 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     this.drawerType = this.drawerService.drawerType;
     this.drawerService.drawerTypeChanged.subscribe((type: DrawerType) => {
       this.drawerType = type;
-      this.setDrawerState(this.drawerState, true, true);
-    })
+      this.setDrawerState(this.drawerState, true);
+    });
 
     this.drawerState = this.drawerService.drawerState;
     this.drawerService.drawerStateChanged.subscribe((state: DrawerState) => {
       this.drawerState = state;
-      this.setDrawerState(state, true, true);
-    })
+      this.setDrawerState(state, true);
+    });
   }
 
   ngAfterViewInit() {
@@ -145,17 +145,15 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     this.deltaY = this.deltaY + ev.deltaY;
   }
 
-  setDrawerState(state: DrawerState, animate: boolean, rerender: boolean) {
+  setDrawerState(state: DrawerState, animate: boolean) {
 
     try  {
       const drawer = this.drawer.nativeElement;
       drawer.style.transition = animate ? '.4s ease-out' : '';
     } catch { console.log("Failed to find drawer") }
 
-    if (rerender) {
-      this.isOpen = this.drawerService.drawerState != DrawerState.Preview
-      this.previewWrapper.nativeElement.style.display = state != DrawerState.Open ? "block" : "none"
-    }
+    this.isOpen = this.drawerState == DrawerState.Open
+    this.previewWrapper.nativeElement.style.display = state != DrawerState.Open ? "block" : "none"
 
     switch (state) {
       case 0:
@@ -190,12 +188,12 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   }
 
   openPreview() {
+    this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
+      this.previewHeight = this.outerHeight(this.previewWrapper.nativeElement);
+      let deltaHeight: number = this.platform.height() - this.previewHeight
       const drawer = this.drawer.nativeElement;
-      this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
-        this.previewHeight = this.outerHeight(this.previewWrapper.nativeElement);
-        let deltaHeight: number = this.platform.height() - this.previewHeight
-        drawer.style.top = `${deltaHeight}px`;
-      });
+      drawer.style.top = `${deltaHeight}px`;
+    });
   }
 
   openDrawer() {
