@@ -23,10 +23,6 @@ const routes: Routes = [
     redirectTo: 'splash',
     pathMatch: 'full'
   },
-  {
-    path: 'demo',
-    loadChildren: () => import('./pages/demo/demo.module').then( m => m.DemoPageModule)
-  },
 ];
 
 @NgModule({

@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Drawer } from '../drawer/drawer.component';
+import { DynamicDrawerComponent } from '../../models/dynamicDrawerItem';
 
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
 })
-export class DemoComponent implements OnInit, Drawer {
+export class DemoComponent implements OnInit, DynamicDrawerComponent {
 
   @Input() data: any;
 

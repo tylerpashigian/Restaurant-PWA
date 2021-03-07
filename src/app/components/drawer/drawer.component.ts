@@ -4,9 +4,7 @@ import {
   ComponentFactoryResolver, 
   ElementRef, 
   HostListener, 
-  Input, 
   OnInit, 
-  Type, 
   ViewChild 
 } from '@angular/core';
 import { GestureController, Platform } from '@ionic/angular';
@@ -17,19 +15,7 @@ import { DemoComponent } from '../demo/demo.component';
 import { CartComponent } from './cart/cart/cart.component';
 import { DrawerPreviewDirective } from '../../directives/drawerPreview/drawer-preview.directive';
 import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
-
-export class DrawerItem {
-  constructor(
-    public component: Type<any>, 
-    public data: any, 
-    public openPreview: () => void = () => {}
-  ) {}
-}
-
-export interface Drawer {
-  data: any;
-  openDrawerCallback?: () => void
-}
+import { DynamicDrawerComponent, DynamicDrawerItem } from 'src/app/models/dynamicDrawerItem';
 
 @Component({
   selector: 'app-drawer',
@@ -83,17 +69,17 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   loadDynamicComponent(type: DrawerType): Promise<void> {
     return new Promise((resolve, reject) => {
-      var dynamicPreviewComponent: DrawerItem
-      var dynamicComponent: DrawerItem
+      var dynamicPreviewComponent: DynamicDrawerItem
+      var dynamicComponent: DynamicDrawerItem
 
       switch(type) {
         case DrawerType.Cart:
-          dynamicPreviewComponent = new DrawerItem(CartPreviewComponent, { name: "Cart Preview" });
-          dynamicComponent = new DrawerItem(CartComponent, { name: "Cart Body" }, this.setPreviewState);
+          dynamicPreviewComponent = new DynamicDrawerItem(CartPreviewComponent, { name: "Cart Preview" });
+          dynamicComponent = new DynamicDrawerItem(CartComponent, { name: "Cart Body" }, this.setPreviewState);
           break;
         case DrawerType.Demo:
-          dynamicPreviewComponent = new DrawerItem(DemoComponent, { name: "Test Preview" });
-          dynamicComponent = new DrawerItem(DemoComponent, { name: "Tyler Pashigian" });
+          dynamicPreviewComponent = new DynamicDrawerItem(DemoComponent, { name: "Test Preview" });
+          dynamicComponent = new DynamicDrawerItem(DemoComponent, { name: "Tyler Pashigian" });
           break;
         default:
           break;
@@ -103,14 +89,14 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       const viewContainerRef = this.drawerHost.viewContainerRef;
       viewContainerRef.clear();
 
-      const componentRef = viewContainerRef.createComponent<Drawer>(componentFactory);
+      const componentRef = viewContainerRef.createComponent<DynamicDrawerComponent>(componentFactory);
       componentRef.instance.data = dynamicComponent.data;
 
       const componentPreviewFactory = this.componentFactoryResolver.resolveComponentFactory(dynamicPreviewComponent.component);
       const viewPreviewContainerRef = this.drawerPreviewHost.viewContainerRef;
       viewPreviewContainerRef.clear();
 
-      const componentPreviewRef = viewPreviewContainerRef.createComponent<Drawer>(componentPreviewFactory);
+      const componentPreviewRef = viewPreviewContainerRef.createComponent<DynamicDrawerComponent>(componentPreviewFactory);
       componentPreviewRef.instance.data = dynamicPreviewComponent.data;
       componentPreviewRef.instance.openDrawerCallback = this.setOpenState;
 
