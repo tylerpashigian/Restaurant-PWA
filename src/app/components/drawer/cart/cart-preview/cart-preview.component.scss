@@ -1,0 +1,14 @@
+.openButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.openButton {
+  --background-activated: var(--ion-color-neutral);
+  --border-color: var(--ion-color-neutral);
+  --border-radius: 25px;
+  --color: white;
+  --color-activated: var(--ion-color-dark-blue);
+  margin-left: auto;
+}

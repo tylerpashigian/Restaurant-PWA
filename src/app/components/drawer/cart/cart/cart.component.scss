@@ -1,0 +1,28 @@
+.checkoutButton {
+  --background: var(--ion-color-neutral);
+  --background-activated: var(--ion-color-light-blue);
+  --border-radius: 25px;
+  --color: #457b9d;
+}
+  
+.cartFooter {
+  align-items: center;
+  justify-content: center;
+  padding-bottom: calc(3vh + env(safe-area-inset-bottom));
+  padding-left: var(--ion-spacing-large);
+  padding-right: var(--ion-spacing-large);
+}
+
+.cartContent {
+  flex: 1;
+  overflow: scroll;
+  padding: 0 1em;
+  margin: 1em 0;
+}
+
+.wrapper {
+  bottom: env(safe-area-inset-bottom);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
