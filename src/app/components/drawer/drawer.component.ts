@@ -73,8 +73,8 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
       switch(type) {
         case DrawerType.Cart:
-          dynamicPreviewComponent = new DynamicDrawerItem(CartPreviewComponent, { name: "Cart Preview" });
-          dynamicComponent = new DynamicDrawerItem(CartComponent, { name: "Cart Body" }, this.setPreviewState);
+          dynamicPreviewComponent = new DynamicDrawerItem(CartPreviewComponent, { previewCtaText: "Cart Preview" });
+          dynamicComponent = new DynamicDrawerItem(CartComponent, { drawerBodyText: "Cart Body" });
           break;
         default:
           break;

@@ -14,7 +14,7 @@ describe('CartComponent', () => {
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    const drawerData: DynamicDrawerComponent = { data: { name: "test" } };
+    const drawerData: DynamicDrawerComponent = { data: { drawerBodyText: "test" } };
 
     fixture = TestBed.createComponent(CartComponent);
     component = fixture.componentInstance;
