@@ -6,11 +6,11 @@ import * as hash from 'hash.js'
 import { AuthService } from '../../services/auth/auth.service'
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-login',
+  templateUrl: 'login.page.html',
+  styleUrls: ['login.page.scss'],
 })
-export class HomePage {
+export class LoginPage {
 
   public loginForm: FormGroup;
   public emailPlaceholder: string = "email";

@@ -35,7 +35,7 @@ export class AppComponent {
       if (user) {
         this.router.navigateByUrl('/create-restaurant-menu')
       } else {
-        this.router.navigateByUrl('/home')
+        this.router.navigateByUrl('/login')
       }
     });
   }
