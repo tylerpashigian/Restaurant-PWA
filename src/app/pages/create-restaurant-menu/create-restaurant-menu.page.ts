@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonRouterOutlet, ModalController } from '@ionic/angular'
 
 import { AuthService } from '../../services/auth/auth.service'
-import { RestaurantService } from '../../services/database/restaurant/restaurant.service'
+import { RestaurantService } from '../../services/restaurant/restaurant.service'
 
 import { AddItemModalComponent } from 'src/app/components/modals/add-item-modal/add-item-modal.component';
 

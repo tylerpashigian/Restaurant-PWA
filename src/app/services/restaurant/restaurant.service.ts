@@ -6,7 +6,7 @@ import 'firebase/firestore';
 import { Category } from 'src/app/models/category';
 import { MenuItem } from 'src/app/models/menuItem';
 
-import { FirebaseService } from '../../firebase/firebase.service'
+import { FirebaseService } from '../firebase/firebase.service'
 
 @Injectable({
   providedIn: 'root'
@@ -38,19 +38,22 @@ export class RestaurantService {
     this.firebaseService.database
     .collection("categories")
     .onSnapshot(documents => {
+      console.log('Category changed!');
       let categories = [] as Category[];
       documents.forEach(async element => {
         let data = element.data()
-        await this.getMenuItemsFromCategory(element.id).then(items => {
+        // DO NOT force all items to load every time a category is loaded, maybe add "see all"
+        //  
+        // await this.getMenuItemsFromCategory(element.id).then(items => {
           let category: Category = {
             id: element.id,
             title: data.category,
             startTime: data.startTime,
             endTime: data.endTime,
-            menuItems: items.length ? items : null
+            // menuItems: items.length ? items : null
           }
           categories.push(category);
-        });
+        // });
       });
       handler(categories);
     })
@@ -58,6 +61,7 @@ export class RestaurantService {
 
   async getMenuItemsFromCategory(categoryId: string): Promise<MenuItem[]> {
     let menuItems = [] as MenuItem[];
+    // TODO: convert this to onSnapshot to dynamically reload menuItem changes?
     let subcollections = await this.firebaseService.database.collection("categories").doc(categoryId).collection("menuItems").get()
     subcollections.forEach(element => {
       let data = element.data()

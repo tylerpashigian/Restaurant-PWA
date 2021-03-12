@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular'
 
 import { FirebaseService } from 'src/app/services/firebase/firebase.service'
 import { GenericToastService } from 'src/app/services/toasts/genericToast/generic-toast.service'
-import { RestaurantService } from 'src/app/services/database/restaurant/restaurant.service';
+import { RestaurantService } from 'src/app/services/restaurant/restaurant.service';
 
 import { MenuItem } from 'src/app/models/menuItem';
 import { Category } from 'src/app/models/category';
