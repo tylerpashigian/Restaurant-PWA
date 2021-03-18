@@ -1,25 +1,8 @@
 <div class="wrapper">
   <div class="cartContent">
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
-    <p>{{ data.drawerBodyText }}</p>
+    <div *ngFor="let item of cartItems | keyvalue">
+      <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }}</p>
+    </div>
   </div>
 
   <div class="cartFooter">

@@ -33,7 +33,8 @@ export class AppComponent {
   setRoot() {
     this.storage.get("user").then((user) => {
       if (user) {
-        this.router.navigateByUrl('/create-restaurant-menu')
+        // this.router.navigateByUrl('/create-restaurant-menu')
+        this.router.navigateByUrl('/restaurant/HFpJCOq9mrCyvkak5fZa')
       } else {
         this.router.navigateByUrl('/login')
       }

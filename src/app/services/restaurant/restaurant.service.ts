@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from "firebase/app";
 import 'firebase/firestore';
+import { Subject } from 'rxjs';
 
 import { Category } from 'src/app/models/category';
+import { Menu } from 'src/app/models/menu';
 import { MenuItem } from 'src/app/models/menuItem';
 
 import { FirebaseService } from '../firebase/firebase.service'
@@ -13,7 +15,28 @@ import { FirebaseService } from '../firebase/firebase.service'
 })
 export class RestaurantService {
 
+  menu: Menu;
+  restaurantPublish = new Subject<Menu>();
+
   constructor(private firebaseService: FirebaseService) {}
+
+  async initRestaurant(id: string) {
+    let document = await this.firebaseService.database
+    .collection("restaurants").doc(id)
+    .get()    
+    
+    const data = document.data();
+
+    this.getMenuCategories(document.id).then((menuCategories) => {
+      this.menu = {
+        id: document.id,
+        categories: menuCategories,
+        restaurantName: data.name
+      }
+      this.restaurantPublish.next(this.menu);
+    })
+  
+  }
 
   async getCategories(): Promise<Category[]> {
     let documents = await this.firebaseService.database
@@ -34,6 +57,25 @@ export class RestaurantService {
 
   }
 
+  async getMenuCategories(id: string): Promise<{ [id: string]: Category }> {
+    let documents = await this.firebaseService.database
+    .collection("restaurants").doc(id).collection("categories")
+    .get()
+
+    let categories: { [id: string]: Category } = {};
+    documents.forEach(element => {
+      let data = element.data()
+      let category: Category = {
+        id: element.id,
+        title: data.name,
+        startTime: data.startTime,
+        endTime: data.endTime,
+      }
+      categories[element.id] = category
+    });
+    return categories;
+  }
+
   subscribeToCategories(handler: Function): void {
     this.firebaseService.database
     .collection("categories")
@@ -43,19 +85,44 @@ export class RestaurantService {
       documents.forEach(async element => {
         let data = element.data()
         // DO NOT force all items to load every time a category is loaded, maybe add "see all"
-        //  
-        // await this.getMenuItemsFromCategory(element.id).then(items => {
+        // Maybe save 3 menu items as snippet from each category as a "preview" in category object
+        await this.getMenuItemsFromCategory(element.id).then(items => {
           let category: Category = {
             id: element.id,
             title: data.category,
             startTime: data.startTime,
             endTime: data.endTime,
-            // menuItems: items.length ? items : null
+            menuItems: items.length ? items : null
           }
           categories.push(category);
-        // });
+        });
       });
       handler(categories);
+    })
+  }
+
+  subsribeToMenuItems(categoryId: string): Promise<MenuItem[]> {
+    return new Promise((resolve, reject) => {
+      let menuItems = [] as MenuItem[];
+      this.firebaseService.database.collection("restaurants").doc(this.menu.id)
+      .collection("menuItems").where("categoryId", "==", categoryId)
+      .onSnapshot(documents => {
+        console.log('menu item changed!');
+        documents.forEach(async element => {
+          let data = element.data()
+          let menuItem: MenuItem = {
+            id: element.id,
+            description: data.description,
+            title: data.name,
+            price: data.price
+          }
+          menuItems.push(menuItem)
+          if (!this.menu.categories[categoryId].menuItemMap) { this.menu.categories[categoryId].menuItemMap = {} }
+          this.menu.categories[categoryId].menuItemMap[element.id] = menuItem;
+        });
+        this.restaurantPublish.next(this.menu);
+        resolve(menuItems);
+      })
     })
   }
 

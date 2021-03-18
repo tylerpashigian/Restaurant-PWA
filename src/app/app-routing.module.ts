@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
   },
   {
+    path: 'restaurant/:id',
+    loadChildren: () => import('./pages/restaurant/restaurant.module').then( m => m.RestaurantPageModule)
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full'
