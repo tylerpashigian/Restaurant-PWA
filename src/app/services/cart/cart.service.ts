@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase';
 import { Subject } from 'rxjs';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
 import { MenuItem } from 'src/app/models/menuItem';
-import { AuthService } from '../auth/auth.service';
 import { DrawerService } from '../drawer/drawer.service';
 
 type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantity: number } };
@@ -15,7 +13,7 @@ export class CartService {
 
   cartItemsUpdated = new Subject<CartItem>();
 
-  constructor(private authService: AuthService, private drawerService: DrawerService) { }
+  constructor(private drawerService: DrawerService) { }
 
   cartItems: CartItem = {};
 
