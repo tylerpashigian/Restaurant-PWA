@@ -8,24 +8,11 @@
   <ion-button (click)="addCartItem()">Add menu item</ion-button>
   <div *ngIf='menu'>
     <h3>{{ menu.restaurantName }}</h3>
-    <ion-list lines='none'>
-      <!-- <div *ngFor="let item of cartItems | keyvalue">
-        <ion-item *ngFor="let menuItem of item.value.items">{{ menuItem.title }}</ion-item>
-      </div> -->
-
-      <!-- <div *ngFor="let category of menu.categories | keyvalue">
-        {{ category.value.title }}
-        <ion-item *ngFor="let menuItem of item.value.items">{{ menuItem.title }}</ion-item>
-      </div> -->
-
-      <ion-item *ngFor="let category of menu.categories | keyvalue" (click)="loadMenuItems(category.value.id)">
-        <h3>{{ category.value.title }}</h3>
-        <!-- <h3>{{ category.value.menuItems }}</h3> -->
-        <p *ngFor="let menuItem of category.value.menuItemMap | keyvalue">
-          {{ menuItem.value.title }}
-        </p>
-      </ion-item>
-    </ion-list>
+    <div *ngFor="let category of menu.categories | keyvalue" (click)="loadMenuItems(category.value.id)">
+      <h3>{{ category.value.title }}</h3>
+      <p *ngFor="let menuItem of category.value.menuItemMap | keyvalue">
+        {{ menuItem.value.title }}
+      </p>
+    </div>
   </div>
-
 </ion-content>

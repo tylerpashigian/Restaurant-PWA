@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Menu } from 'src/app/models/menu';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { RestaurantService } from 'src/app/services/restaurant/restaurant.service';
@@ -9,27 +10,37 @@ import { RestaurantService } from 'src/app/services/restaurant/restaurant.servic
   templateUrl: './restaurant.page.html',
   styleUrls: ['./restaurant.page.scss'],
 })
-export class RestaurantPage implements OnInit {
+export class RestaurantPage implements OnDestroy, OnInit {
 
+  menu: Menu;
   restaurantId: string;
-  menu: Menu
+  restuarantSubscription: Subscription;
+  tableId: string;
 
   constructor(
     private cartService: CartService,
     private restaurantService: RestaurantService, 
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.restaurantId = this.route.params['id'];
+    this.restaurantId = this.route.params['restaurantId'];
     this.route.params.subscribe((params: Params) => {
-      this.restaurantId = params['id'];
-    })
+      this.restaurantId = params['restaurantId'];
+    });
+    this.tableId = this.route.params['tableId'];
+    this.route.params.subscribe((params: Params) => {
+      this.tableId = params['tableId'];
+    });
     this.restaurantService.initRestaurant(this.restaurantId);
-    this.restaurantService.restaurantPublish.subscribe((menu) => {
+    this.restuarantSubscription = this.restaurantService.restaurantPublish.subscribe((menu) => {
       this.menu = {...menu}
       console.log("Updated menu: ", this.menu);
-    })
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.restuarantSubscription.unsubscribe();
   }
 
   addCartItem() {

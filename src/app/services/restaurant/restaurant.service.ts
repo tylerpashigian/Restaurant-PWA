@@ -9,6 +9,7 @@ import { Menu } from 'src/app/models/menu';
 import { MenuItem } from 'src/app/models/menuItem';
 
 import { FirebaseService } from '../firebase/firebase.service'
+import { GenericToastService } from '../toasts/genericToast/generic-toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class RestaurantService {
   menu: Menu;
   restaurantPublish = new Subject<Menu>();
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService, private toastService: GenericToastService) {}
 
   async initRestaurant(id: string) {
     let document = await this.firebaseService.database
@@ -28,14 +29,17 @@ export class RestaurantService {
     const data = document.data();
 
     this.getMenuCategories(document.id).then((menuCategories) => {
-      this.menu = {
-        id: document.id,
-        categories: menuCategories,
-        restaurantName: data.name
+      try {
+        this.menu = {
+          id: document.id,
+          categories: menuCategories,
+          restaurantName: data.name
+        }
+        this.restaurantPublish.next(this.menu);
+      } catch(error) {
+        this.toastService.presentToast("Invalid Restaurant Id");
       }
-      this.restaurantPublish.next(this.menu);
-    })
-  
+    }); 
   }
 
   async getCategories(): Promise<Category[]> {
