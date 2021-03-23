@@ -14,10 +14,8 @@ import { Router } from '@angular/router';
 export class AppComponent {
   constructor(
     private platform: Platform,
-    private router: Router,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private storage: Storage
   ) {
     this.initializeApp();
   }
@@ -26,17 +24,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.setRoot();
     });
   }
 
-  setRoot() {
-    this.storage.get("user").then((user) => {
-      if (user) {
-        this.router.navigateByUrl('/create-restaurant-menu')
-      } else {
-        this.router.navigateByUrl('/login')
-      }
-    });
-  }
 }

@@ -15,12 +15,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/create-restaurant-account/create-restaurant-account.module').then( m => m.CreateRestaurantAccountPageModule)
   },
   {
-    path: 'splash',
-    loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'restaurant/:restaurantId/:tableId',
+    loadChildren: () => import('./pages/restaurant/restaurant.module').then( m => m.RestaurantPageModule)
   },
   {
     path: '',
-    redirectTo: 'splash',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
 ];

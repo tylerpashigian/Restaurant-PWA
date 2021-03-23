@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'src/app/models/menuItem';
+import { CartService } from 'src/app/services/cart/cart.service';
+
+type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantity: number } };
 
 @Component({
   selector: 'app-cart',
@@ -9,8 +13,15 @@ export class CartComponent implements OnInit {
 
   data: any
 
-  constructor() { }
+  constructor(private cartService: CartService) { }
 
-  ngOnInit() {}
+  cartItems: CartItem;
+
+  ngOnInit() {
+    this.cartItems = this.cartService.cartItems;
+    this.cartService.cartItemsUpdated.subscribe((cartItems: CartItem) => {      
+      this.cartItems = cartItems;
+    })
+  }
 
 }
