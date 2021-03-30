@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
 import { MenuItem } from 'src/app/models/menuItem';
 import { DrawerService } from '../drawer/drawer.service';
+import { RestaurantService } from '../restaurant/restaurant.service';
 
 type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantity: number } };
 
@@ -11,25 +12,37 @@ type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantit
 })
 export class CartService {
 
+  cartSubscription: Subscription;
   cartItemsUpdated = new Subject<CartItem>();
-
-  constructor(private drawerService: DrawerService) { }
-
   cartItems: CartItem = {};
 
-  addItem(item: MenuItem) {
-    if (this.cartItems[item.id]) {
-      this.cartItems[item.id].items.push(item)
-      this.cartItems[item.id].quantity += 1;
-    } else {
-      this.cartItems[item.id] = { items: [item], userAdded: "georihgoriu", quantity: 1 }
-    }
+  constructor(private drawerService: DrawerService, private restaurantService: RestaurantService) {
+    // Why is this not working in ngOnInit
+    console.log('Cart service init');
+    this.cartSubscription = this.restaurantService.cartPublish.subscribe((cart) => {
+      if (cart.length && this.drawerService.drawerState === DrawerState.Closed) {
+        this.drawerService.setType(DrawerType.Cart);
+        this.drawerService.setState(DrawerState.Preview);
+      } else if (!cart.length) {
+        this.drawerService.setState(DrawerState.Closed);
+      }
+      const cartObject = cart.reduce((items, next) => {
+        if (items[next.id]) {
+          items[next.id].items.push(next)
+          items[next.id].quantity += 1;
+        } else {
+          items[next.id] = { items: [next], userAdded: "georihgoriu", quantity: 1 }
+        }        
+        return items;
+      }, {});
+      console.log('cart subscription updated', cartObject);
+      this.cartItems = cartObject
+      this.cartItemsUpdated.next(cartObject);
+    });
+  }
 
-    this.drawerService.setType(DrawerType.Cart);
-    this.drawerService.setState(DrawerState.Preview);
-    
-    this.cartItemsUpdated.next(this.cartItems);
-    
+  addItem(item: MenuItem) {
+    this.restaurantService.addCartItem(item);
   }
   
 }

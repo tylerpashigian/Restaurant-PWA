@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu } from 'src/app/models/menu';
+import { MenuItem } from 'src/app/models/menuItem';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { DrawerService } from 'src/app/services/drawer/drawer.service';
 import { RestaurantService } from 'src/app/services/restaurant/restaurant.service';
 
 @Component({
@@ -32,10 +34,9 @@ export class RestaurantPage implements OnDestroy, OnInit {
     this.route.params.subscribe((params: Params) => {
       this.tableId = params['tableId'];
     });
-    this.restaurantService.initRestaurant(this.restaurantId);
+    this.restaurantService.initRestaurant(this.restaurantId, this.tableId);
     this.restuarantSubscription = this.restaurantService.restaurantPublish.subscribe((menu) => {
       this.menu = {...menu}
-      console.log("Updated menu: ", this.menu);
     });
   }
 
@@ -43,18 +44,17 @@ export class RestaurantPage implements OnDestroy, OnInit {
     this.restuarantSubscription.unsubscribe();
   }
 
-  addCartItem() {
+  addCartItem(menuItem: MenuItem) {    
     this.cartService.addItem({
-      id: this.restaurantId,
-      title: "Orange Chicken",
-      price: "5.30"
+      id: menuItem.id,
+      title: menuItem.title,
+      price: menuItem.price ?? ""
     })
   }
 
   loadMenuItems(id: string) {
     if (this.menu.categories[id].menuItemMap) { 
-      console.log('Gathered local items');
-      console.log(this.menu.categories[id].menuItemMap);
+      console.log('Gathered local items', this.menu.categories[id].menuItemMap);
     } else {
       this.restaurantService.subsribeToMenuItems(id)
       // .then((items) => { console.log(items); }); 
