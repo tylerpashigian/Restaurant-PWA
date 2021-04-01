@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DrawerState, DrawerType } from 'src/app/models/drawerState';
-import { MenuItem } from 'src/app/models/menuItem';
+import { CartItems } from 'src/app/models/cartItems';
 import { CartService } from 'src/app/services/cart/cart.service';
-import { DrawerService } from 'src/app/services/drawer/drawer.service';
 import { RestaurantService } from 'src/app/services/restaurant/restaurant.service';
-
-type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantity: number } };
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +10,7 @@ type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantit
 })
 export class CartComponent implements OnInit {
 
-  cartItems: CartItem;
+  cartItems: CartItems;
   data: any;
 
   constructor(

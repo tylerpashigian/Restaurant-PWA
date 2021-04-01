@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Menu } from 'src/app/models/menu';
 import { MenuItem } from 'src/app/models/menuItem';
 import { CartService } from 'src/app/services/cart/cart.service';
-import { DrawerService } from 'src/app/services/drawer/drawer.service';
 import { RestaurantService } from 'src/app/services/restaurant/restaurant.service';
 
 @Component({

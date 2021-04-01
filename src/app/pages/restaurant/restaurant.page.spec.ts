@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { of } from 'rxjs';
 
 import { RestaurantPage } from './restaurant.page';
@@ -12,7 +13,7 @@ describe('RestaurantPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RestaurantPage ],
-      imports: [ IonicModule.forRoot() ],
+      imports: [ IonicModule.forRoot(), IonicStorageModule.forRoot() ],
       providers: [ 
         {
           provide: ActivatedRoute,

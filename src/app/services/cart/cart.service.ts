@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { CartItems } from 'src/app/models/cartItems';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
 import { MenuItem } from 'src/app/models/menuItem';
 import { DrawerService } from '../drawer/drawer.service';
 import { RestaurantService } from '../restaurant/restaurant.service';
-
-type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantity: number } };
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,8 @@ type CartItem = { [key:string] : { items: MenuItem[], userAdded: string, quantit
 export class CartService {
 
   cartSubscription: Subscription;
-  cartItemsUpdated = new Subject<CartItem>();
-  cartItems: CartItem = {};
+  cartItemsUpdated = new Subject<CartItems>();
+  cartItems: CartItems = {};
 
   constructor(private drawerService: DrawerService, private restaurantService: RestaurantService) {
     // Why is this not working in ngOnInit

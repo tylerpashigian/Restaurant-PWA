@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { DynamicDrawerComponent } from 'src/app/models/dynamicDrawerItem';
 
 import { CartComponent } from './cart.component';
@@ -11,7 +12,7 @@ describe('CartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CartComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), IonicStorageModule.forRoot()]
     }).compileComponents();
 
     const drawerData: DynamicDrawerComponent = { data: { drawerBodyText: "Drawer Body" } };
