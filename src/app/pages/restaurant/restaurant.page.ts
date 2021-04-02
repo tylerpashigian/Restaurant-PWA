@@ -47,7 +47,7 @@ export class RestaurantPage implements OnDestroy, OnInit {
     this.cartService.addItem({
       id: menuItem.id,
       title: menuItem.title,
-      price: menuItem.price ?? ""
+      price: menuItem.price
     })
   }
 

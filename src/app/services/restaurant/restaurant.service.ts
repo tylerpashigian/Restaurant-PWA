@@ -54,33 +54,7 @@ export class RestaurantService {
     }); 
   }
 
-  checkout(): void {
-    // TODO: handle payment logic here as well and only clearTable if the payment was successful
-    this.clearTable();
-  }
-
-  subsribeToMenuItems(categoryId: string): void {
-    let menuItems = [] as MenuItem[];
-    this.firebaseService.database.collection("restaurants").doc(this.menu.id)
-    .collection("menuItems").where("categoryId", "==", categoryId)
-    .onSnapshot(documents => {
-      console.log('menu item changed!');
-      documents.forEach(element => {
-        let data = element.data()
-        let menuItem: MenuItem = {
-          id: element.id,
-          description: data.description,
-          title: data.name,
-          price: data.price
-        }
-        menuItems.push(menuItem)
-        if (!this.menu.categories[categoryId].menuItemMap) { this.menu.categories[categoryId].menuItemMap = {} }
-        this.menu.categories[categoryId].menuItemMap[element.id] = menuItem;
-      });
-      this.restaurantPublish.next(this.menu);
-    })
-  }
-
+  // ANCHOR Cart Related Functions
   subsribeToCart(): void {
     this.firebaseService.database
       .collection("tables").doc(`${this.restaurantId}#${this.tableId}`)
@@ -94,21 +68,12 @@ export class RestaurantService {
       })
   }
 
-  clearTable(): void {
-    this.firebaseService.database
-      .collection("tables")
-      .doc(`${this.restaurantId}#${this.tableId}`)
-      .update({
-        items: firebase.firestore.FieldValue.delete()
-      })
-  }
-
   addCartItem(item: MenuItem) {
     const data = {
       id: item.id,
       // description: item.description,
       title: item.title,
-      price: item.price,
+      price: item.price ?? '',
       userAdded: this.authService.user.uid,
       uuid: uuidv4(),
       // imageUrl?: string;
@@ -127,6 +92,22 @@ export class RestaurantService {
       });
   }
 
+
+  checkout(): void {
+    // TODO: handle payment logic here as well and only clearTable if the payment was successful
+    this.clearTable();
+  }
+
+  clearTable(): void {
+    this.firebaseService.database
+      .collection("tables")
+      .doc(`${this.restaurantId}#${this.tableId}`)
+      .update({
+        items: firebase.firestore.FieldValue.delete()
+      })
+  }
+
+  // ANCHOR Category Related Functions
   async getCategories(): Promise<Category[]> {
     let documents = await this.firebaseService.database
     .collection("categories")
@@ -190,6 +171,42 @@ export class RestaurantService {
     })
   }
 
+  async addCategory(category: Category): Promise<firebase.firestore.DocumentReference> {
+    try {
+      return await this.firebaseService.database.collection("categories").add({
+        created: Date.now(),
+        category: category.title,
+        startTime: category.startTime,
+        endTime: category.endTime
+      });
+    } catch(error) {
+      console.log(`Error adding category ${error}`);
+    }
+  }
+
+  // ANCHOR MenuItem Related Functions
+  subsribeToMenuItems(categoryId: string): void {
+    let menuItems = [] as MenuItem[];
+    this.firebaseService.database.collection("restaurants").doc(this.menu.id)
+    .collection("menuItems").where("categoryId", "==", categoryId)
+    .onSnapshot(documents => {
+      console.log('menu item changed!');
+      documents.forEach(element => {
+        let data = element.data()
+        let menuItem: MenuItem = {
+          id: element.id,
+          description: data.description,
+          title: data.name,
+          price: data.price
+        }
+        menuItems.push(menuItem)
+        if (!this.menu.categories[categoryId].menuItemMap) { this.menu.categories[categoryId].menuItemMap = {} }
+        this.menu.categories[categoryId].menuItemMap[element.id] = menuItem;
+      });
+      this.restaurantPublish.next(this.menu);
+    })
+  }
+
   async getMenuItemsFromCategory(categoryId: string): Promise<MenuItem[]> {
     let menuItems = [] as MenuItem[];
     // TODO: convert this to onSnapshot to dynamically reload menuItem changes?
@@ -206,19 +223,6 @@ export class RestaurantService {
       menuItems.push(menuItem)
     })
     return menuItems
-  }
-
-  async addCategory(category: Category): Promise<firebase.firestore.DocumentReference> {
-    try {
-      return await this.firebaseService.database.collection("categories").add({
-        created: Date.now(),
-        category: category.title,
-        startTime: category.startTime,
-        endTime: category.endTime
-      });
-    } catch(error) {
-      console.log(`Error adding category ${error}`);
-    }
   }
 
   async addMenuItem(categoryId: string, menuItem: MenuItem): Promise<firebase.firestore.DocumentReference> {

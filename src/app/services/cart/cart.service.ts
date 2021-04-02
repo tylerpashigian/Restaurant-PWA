@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { CartItems } from 'src/app/models/cartItems';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
@@ -9,15 +9,20 @@ import { RestaurantService } from '../restaurant/restaurant.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
+export class CartService implements OnDestroy {
 
   cartSubscription: Subscription;
   cartItemsUpdated = new Subject<CartItems>();
   cartItems: CartItems = {};
 
-  constructor(private drawerService: DrawerService, private restaurantService: RestaurantService) {
-    // Why is this not working in ngOnInit
-    console.log('Cart service init');
+  constructor(
+    private drawerService: DrawerService, 
+    private restaurantService: RestaurantService
+  ) {
+    this.initCartSubscription();
+  }
+
+  initCartSubscription(): void {
     this.cartSubscription = this.restaurantService.cartPublish.subscribe((cart) => {
       if (cart.length && this.drawerService.drawerState === DrawerState.Closed) {
         this.drawerService.setType(DrawerType.Cart);
@@ -34,14 +39,18 @@ export class CartService {
         }        
         return items;
       }, {});
-      console.log('cart subscription updated', cartObject);
       this.cartItems = cartObject
       this.cartItemsUpdated.next(cartObject);
     });
   }
-
+  
+  // REVIEW Should this be skipped and restaurantService be called directly?
   addItem(item: MenuItem) {
     this.restaurantService.addCartItem(item);
+  }
+
+  ngOnDestroy(): void {
+    this.cartSubscription.unsubscribe();
   }
   
 }
