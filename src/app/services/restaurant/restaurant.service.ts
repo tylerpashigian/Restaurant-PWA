@@ -22,7 +22,7 @@ export class RestaurantService {
   restaurantId: string;
   restaurantPublish = new Subject<Menu>();
   tableId: string;
-  cartPublish = new Subject<any>();
+  cartPublish = new Subject<MenuItem[]>();
 
   constructor(
     private authService: AuthService,
@@ -59,10 +59,10 @@ export class RestaurantService {
     this.firebaseService.database
       .collection("tables").doc(`${this.restaurantId}#${this.tableId}`)
       .onSnapshot(document => {
-        let cartItems = [] as any[];
+        let cartItems = [] as MenuItem[];
         const items = document.data().items ?? [];
         items.forEach(item => {
-          cartItems.push({ id: item.id, title: item.title, price: item.price })
+          cartItems.push({ id: item.id, title: item.title, price: item.price } as MenuItem)
         });        
         this.cartPublish.next(cartItems);
       })
