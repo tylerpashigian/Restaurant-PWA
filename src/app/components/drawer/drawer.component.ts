@@ -4,6 +4,7 @@ import {
   ComponentFactoryResolver, 
   ElementRef, 
   HostListener, 
+  OnDestroy, 
   OnInit, 
   ViewChild 
 } from '@angular/core';
@@ -21,7 +22,7 @@ import { DynamicDrawerComponent, DynamicDrawerItem } from 'src/app/models/dynami
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss'],
 })
-export class DrawerComponent implements OnInit, AfterViewInit {
+export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('drawer', { read: ElementRef }) drawer: ElementRef;
   @ViewChild('previewWrapper', { read: ElementRef }) previewWrapper: ElementRef;
@@ -189,6 +190,11 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       const drawer = this.drawer.nativeElement;
       drawer.style.top = `${this.platform.height() + 20}px`
     });
+  }
+
+  ngOnDestroy(): void {
+    this.drawerService.drawerStateChanged.unsubscribe();
+    this.drawerService.drawerTypeChanged.unsubscribe();
   }
 
 }
