@@ -20,7 +20,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     this.cartItems = this.cartService.cartItems;
-    this.cartService.cartItemsUpdated.subscribe((cartItems: any) => {            
+    this.cartService.cartItemsUpdated.subscribe((cartItems: CartItems) => {            
       this.cartItems = cartItems;
     })
   }
