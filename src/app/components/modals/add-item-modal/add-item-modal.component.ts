@@ -55,7 +55,7 @@ export class AddItemModalComponent implements OnInit {
 
       this.firebaseService.uploadImage(newItem.id, "menuItems", this.image)
       .then(() => {
-        this.category.menuItems != null ? this.category.menuItems.push(menuItem) : this.category.menuItems = [menuItem];
+        this.category.menuItems[newItem.id] = menuItem;
       })
 
       this.dismissModal();

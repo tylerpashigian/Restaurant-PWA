@@ -1,3 +1,5 @@
+export type MenuItems = { [id: string]: MenuItem }
+
 export interface MenuItem {
   id?: string
   description?: string;

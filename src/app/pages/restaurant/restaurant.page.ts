@@ -52,8 +52,8 @@ export class RestaurantPage implements OnDestroy, OnInit {
   }
 
   loadMenuItems(id: string) {
-    if (this.menu.categories[id].menuItemMap) { 
-      console.log('Gathered local items', this.menu.categories[id].menuItemMap);
+    if (this.menu.categories[id].menuItems) { 
+      console.log('Gathered local items', this.menu.categories[id].menuItems);
     } else {
       this.restaurantService.subsribeToMenuItems(id)
       // .then((items) => { console.log(items); }); 

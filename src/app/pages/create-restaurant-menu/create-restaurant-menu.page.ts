@@ -57,6 +57,7 @@ export class CreateRestaurantMenuPage implements OnInit {
   }
 
   // Loading data once while reading as a customer
+  // TODO check to see if this can be removed
   async getCategories() {
     await this.restaurantService.getCategories().then(data => {
       this.categories = data;
@@ -66,7 +67,7 @@ export class CreateRestaurantMenuPage implements OnInit {
   // Subscribing to see live updates while editing
   subscribeToCategories() {
     this.restaurantService.subscribeToCategories(categories => {
-      this.categories = categories
+      this.categories = categories;
     })
   }
 

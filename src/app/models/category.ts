@@ -1,11 +1,11 @@
-import { MenuItem } from './menuItem';
+import { MenuItem, MenuItems } from './menuItem';
+
+export type Categories = { [id: string]: Category }
 
 export interface Category {
   id?: string,
   endTime?: string;
-  // TODO: Remove this and convert all menu items references to use a map (menuItemsMap)
-  menuItems?: MenuItem[];
-  menuItemMap?: { [id: string]: MenuItem }
+  menuItems?: MenuItems;
   title: string;
   startTime?: string;
 }

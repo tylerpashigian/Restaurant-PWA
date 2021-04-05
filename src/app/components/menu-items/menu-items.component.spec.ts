@@ -17,7 +17,7 @@ describe('MenuItemsComponent', () => {
     component = fixture.componentInstance;
     component.category = {
       title: "Test",
-      menuItems: []
+      menuItems: {}
     }
     fixture.detectChanges();
   }));

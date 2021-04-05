@@ -5,9 +5,9 @@ import 'firebase/firestore';
 import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Category } from 'src/app/models/category';
+import { Categories, Category } from 'src/app/models/category';
 import { Menu } from 'src/app/models/menu';
-import { MenuItem } from 'src/app/models/menuItem';
+import { MenuItem, MenuItems } from 'src/app/models/menuItem';
 import { AuthService } from '../auth/auth.service';
 
 import { FirebaseService } from '../firebase/firebase.service'
@@ -127,12 +127,12 @@ export class RestaurantService {
 
   }
 
-  async getMenuCategories(id: string): Promise<{ [id: string]: Category }> {
+  async getMenuCategories(id: string): Promise<Categories> {
     let documents = await this.firebaseService.database
     .collection("restaurants").doc(id).collection("categories")
     .get()
 
-    let categories: { [id: string]: Category } = {};
+    let categories: Categories = {};
     documents.forEach(element => {
       let data = element.data()
       let category: Category = {
@@ -162,7 +162,7 @@ export class RestaurantService {
             title: data.category,
             startTime: data.startTime,
             endTime: data.endTime,
-            menuItems: items.length ? items : null
+            menuItems: items
           }
           categories.push(category);
         });
@@ -200,15 +200,15 @@ export class RestaurantService {
           price: data.price
         }
         menuItems.push(menuItem)
-        if (!this.menu.categories[categoryId].menuItemMap) { this.menu.categories[categoryId].menuItemMap = {} }
-        this.menu.categories[categoryId].menuItemMap[element.id] = menuItem;
+        if (!this.menu.categories[categoryId].menuItems) { this.menu.categories[categoryId].menuItems = {} }
+        this.menu.categories[categoryId].menuItems[element.id] = menuItem;
       });
       this.restaurantPublish.next(this.menu);
     })
   }
 
-  async getMenuItemsFromCategory(categoryId: string): Promise<MenuItem[]> {
-    let menuItems = [] as MenuItem[];
+  async getMenuItemsFromCategory(categoryId: string): Promise<MenuItems> {
+    let menuItems = {} as MenuItems;
     // TODO: convert this to onSnapshot to dynamically reload menuItem changes?
     let subcollections = await this.firebaseService.database.collection("categories").doc(categoryId).collection("menuItems").get()
     subcollections.forEach(element => {
@@ -220,7 +220,7 @@ export class RestaurantService {
         title: data.name,
         price: data.price
       }
-      menuItems.push(menuItem)
+      menuItems[element.id] = menuItem;
     })
     return menuItems
   }

@@ -24,7 +24,7 @@ describe('AddItemModalComponent', () => {
     component = fixture.componentInstance;
     component.category = {
       title: "Test",
-      menuItems: []
+      menuItems: {}
     }
     fixture.detectChanges();
   }));
