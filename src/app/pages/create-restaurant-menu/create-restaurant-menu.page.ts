@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
+
 import { IonRouterOutlet, ModalController } from '@ionic/angular'
 
 import { AuthService } from '../../services/auth/auth.service'
 import { RestaurantService } from '../../services/restaurant/restaurant.service'
-
 import { AddItemModalComponent } from 'src/app/components/modals/add-item-modal/add-item-modal.component';
-
 import { Category } from 'src/app/models/category';
 
 @Component({
@@ -16,14 +16,22 @@ import { Category } from 'src/app/models/category';
 })
 export class CreateRestaurantMenuPage implements OnInit {
 
-  public categoryForm: FormGroup;
-  public restaurantName: string = "Sample Restaurant";
-  public categoryPlaceholder: string = "Breakfast"
-  public startTimePlaceholder: string = "8:00 am"
-  public endTimePlaceholder: string = "12:00 pm"
-  public categories: Category[];
+  categories: Category[];
+  categoryForm: FormGroup;
+  categoryPlaceholder: string = "Breakfast"
+  endTimePlaceholder: string = "12:00 pm"
+  restaurantId: string;
+  restaurantName: string = "Sample Restaurant";
+  startTimePlaceholder: string = "8:00 am"
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private modalController: ModalController, private restaurantService: RestaurantService, private routerOutlet: IonRouterOutlet) {
+  constructor(
+    private authService: AuthService, 
+    private formBuilder: FormBuilder, 
+    private modalController: ModalController, 
+    private restaurantService: RestaurantService,
+    private route: ActivatedRoute,
+    private routerOutlet: IonRouterOutlet
+  ) {
     this.createForms()
   }
 
@@ -53,20 +61,24 @@ export class CreateRestaurantMenuPage implements OnInit {
   }
 
   ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this.restaurantId = params['restaurantId'];
+    });
+    this.restaurantService.initRestaurant(this.restaurantId, null);
     this.subscribeToCategories();
   }
 
   // Loading data once while reading as a customer
   // TODO check to see if this can be removed
   async getCategories() {
-    await this.restaurantService.getCategories().then(data => {
+    await this.restaurantService.getCategories(this.restaurantId).then(data => {
       this.categories = data;
     })
   }
 
   // Subscribing to see live updates while editing
   subscribeToCategories() {
-    this.restaurantService.subscribeToCategories(categories => {
+    this.restaurantService.subscribeToCategories((categories: Category[]) => {
       this.categories = categories;
     })
   }

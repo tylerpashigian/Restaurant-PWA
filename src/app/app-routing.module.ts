@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/create-restaurant-menu/create-restaurant-menu.module').then( m => m.CreateRestaurantMenuPageModule)
   },
   {
+    path: 'create-restaurant-menu/:restaurantId',
+    loadChildren: () => import('./pages/create-restaurant-menu/create-restaurant-menu.module').then( m => m.CreateRestaurantMenuPageModule)
+  },
+  {
     path: 'create-restaurant-account',
     loadChildren: () => import('./pages/create-restaurant-account/create-restaurant-account.module').then( m => m.CreateRestaurantAccountPageModule)
   },
