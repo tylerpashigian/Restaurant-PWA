@@ -7,4 +7,5 @@ export interface MenuItem {
   price: string;
   imageUrl?: string;
   ingredients?: [string];
+  userAdded?: string;
 }

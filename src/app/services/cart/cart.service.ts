@@ -24,18 +24,13 @@ export class CartService implements OnDestroy {
 
   initCartSubscription(): void {
     this.cartSubscription = this.restaurantService.cartPublish.subscribe((cart) => {
-      if (cart.length && this.drawerService.drawerState === DrawerState.Closed) {
-        this.drawerService.setType(DrawerType.Cart);
-        this.drawerService.setState(DrawerState.Preview);
-      } else if (!cart.length) {
-        this.drawerService.setState(DrawerState.Closed);
-      }
+      this.setDrawerState(cart);
       const cartObject = cart.reduce((items, next) => {
         if (items[next.id]) {
           items[next.id].items.push(next)
           items[next.id].quantity += 1;
         } else {
-          items[next.id] = { items: [next], userAdded: "georihgoriu", quantity: 1 }
+          items[next.id] = { items: [next], quantity: 1 }
         }        
         return items;
       }, {});
@@ -51,6 +46,15 @@ export class CartService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.cartSubscription.unsubscribe();
+  }
+
+  setDrawerState(cart: MenuItem[]): void {
+    if (cart.length && this.drawerService.drawerState === DrawerState.Closed) {
+      this.drawerService.setType(DrawerType.Cart);
+      this.drawerService.setState(DrawerState.Preview);
+    } else if (!cart.length) {
+      this.drawerService.setState(DrawerState.Closed);
+    }
   }
   
 }

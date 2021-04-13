@@ -61,8 +61,13 @@ export class RestaurantService {
       .onSnapshot(document => {
         let cartItems = [] as MenuItem[];
         const items = document.data().items ?? [];
-        items.forEach(item => {
-          cartItems.push({ id: item.id, title: item.title, price: item.price } as MenuItem)
+        items.forEach((item: MenuItem) => {
+          cartItems.push({ 
+            id: item.id, 
+            title: item.title, 
+            price: item.price, 
+            userAdded: item.userAdded ?? "Guest user"
+          } as MenuItem)
         });        
         this.cartPublish.next(cartItems);
       })
@@ -193,14 +198,15 @@ export class RestaurantService {
     .onSnapshot(documents => {
       console.log('menu item changed!');
       documents.forEach(element => {
-        let data = element.data()
+        let data = element.data();
         let menuItem: MenuItem = {
           id: element.id,
           description: data.description,
           title: data.name,
-          price: data.price
+          price: data.price,
+          userAdded: data.userAdded
         }
-        menuItems.push(menuItem)
+        menuItems.push(menuItem);
         if (!this.menu.categories[categoryId].menuItems) { this.menu.categories[categoryId].menuItems = {} }
         this.menu.categories[categoryId].menuItems[element.id] = menuItem;
       });
