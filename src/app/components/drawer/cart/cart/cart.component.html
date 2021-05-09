@@ -1,10 +1,10 @@
 <div class="wrapper">
   <div class="cartContent">
     <div *ngFor="let item of cartItems | keyvalue">
-      <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }}</p>
+      <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price }})</p>
     </div>
   </div>
-
+  <p class="ion-padding-horizontal">Cart Total: {{ cartTotal | currency }}</p>
   <div class="cartFooter">
     <ion-button expand="block" class="checkoutButton" (click)="checkout()">
         Checkout

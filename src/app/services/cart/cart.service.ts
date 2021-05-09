@@ -1,9 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { CartItems } from 'src/app/models/cartItems';
+import { CartObject } from 'src/app/models/cart';
+import { DrawerService } from '../drawer/drawer.service';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
 import { MenuItem } from 'src/app/models/menuItem';
-import { DrawerService } from '../drawer/drawer.service';
 import { RestaurantService } from '../restaurant/restaurant.service';
 
 @Injectable({
@@ -12,8 +13,9 @@ import { RestaurantService } from '../restaurant/restaurant.service';
 export class CartService implements OnDestroy {
 
   cartSubscription: Subscription;
-  cartItemsUpdated = new Subject<CartItems>();
+  cartItemsUpdated = new Subject<CartObject>();
   cartItems: CartItems = {};
+  cartTotal: number;
 
   constructor(
     private drawerService: DrawerService, 
@@ -24,8 +26,8 @@ export class CartService implements OnDestroy {
 
   initCartSubscription(): void {
     this.cartSubscription = this.restaurantService.cartPublish.subscribe((cart) => {
-      this.setDrawerState(cart);
-      const cartObject = cart.reduce((items, next) => {
+      this.setDrawerState(cart.cartItems);
+      const cartItems = cart.cartItems.reduce((items, next) => {
         if (items[next.id]) {
           items[next.id].items.push(next)
           items[next.id].quantity += 1;
@@ -34,8 +36,9 @@ export class CartService implements OnDestroy {
         }        
         return items;
       }, {});
-      this.cartItems = cartObject
-      this.cartItemsUpdated.next(cartObject);
+      this.cartItems = cartItems;
+      this.cartTotal = cart.cartTotal;
+      this.cartItemsUpdated.next({ cartItems: cartItems, cartTotal: cart.cartTotal });
     });
   }
   

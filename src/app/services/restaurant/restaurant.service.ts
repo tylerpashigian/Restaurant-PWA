@@ -5,6 +5,7 @@ import 'firebase/firestore';
 import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
+import { Cart } from 'src/app/models/cart';
 import { Categories, Category } from 'src/app/models/category';
 import { Menu } from 'src/app/models/menu';
 import { MenuItem, MenuItems } from 'src/app/models/menuItem';
@@ -22,7 +23,7 @@ export class RestaurantService {
   restaurantId: string;
   restaurantPublish = new Subject<Menu>();
   tableId: string;
-  cartPublish = new Subject<MenuItem[]>();
+  cartPublish = new Subject<Cart>();
 
   constructor(
     private authService: AuthService,
@@ -59,6 +60,7 @@ export class RestaurantService {
     this.firebaseService.database
       .collection("tables").doc(`${this.restaurantId}#${this.tableId}`)
       .onSnapshot(document => {
+        let cartTotal = 0;
         let cartItems = [] as MenuItem[];
         const items = document.data().items ?? [];
         items.forEach((item: MenuItem) => {
@@ -68,8 +70,9 @@ export class RestaurantService {
             price: item.price, 
             userAdded: item.userAdded ?? "Guest user"
           } as MenuItem)
+          cartTotal += +item.price;
         });        
-        this.cartPublish.next(cartItems);
+        this.cartPublish.next({ cartTotal: cartTotal, cartItems: cartItems });
       })
   }
 
