@@ -8,6 +8,7 @@ import { RestaurantService } from 'src/app/services/restaurant/restaurant.servic
 
 import { MenuItem } from 'src/app/models/menuItem';
 import { Category } from 'src/app/models/category';
+import { NumberValidator } from 'src/app/validators/number.validator';
 
 @Component({
   selector: 'app-add-item-modal',
@@ -19,7 +20,7 @@ export class AddItemModalComponent implements OnInit {
   @Input() category: Category;
 
   public itemNamePlaceholder: string = "Burger"
-  public itemPricePlaceholder: string = "$3.50"
+  public itemPricePlaceholder: string = "3.50"
 
   public itemForm: FormGroup;
 
@@ -34,7 +35,7 @@ export class AddItemModalComponent implements OnInit {
     this.itemForm = this.formBuilder.group({
       description: [],
       name: ['', Validators.required],
-      price: ['', Validators.required]
+      price: ['', Validators.compose([Validators.required, NumberValidator.isValid])]
     });
   }
 
@@ -49,19 +50,23 @@ export class AddItemModalComponent implements OnInit {
       title: title,
       price: price,
     }
-    let newItem = await this.restaurantService.addMenuItem(this.category.id, menuItem);
-    if (newItem != null) {
-      menuItem.id = newItem.id
+    if (this.itemForm.valid) {
+      let newItem = await this.restaurantService.addMenuItem(this.category.id, menuItem);
+      if (newItem != null) {
+        menuItem.id = newItem.id
 
-      this.firebaseService.uploadImage(newItem.id, "menuItems", this.image)
-      .then(() => {
-        this.category.menuItems[newItem.id] = menuItem;
-      })
+        this.firebaseService.uploadImage(newItem.id, "menuItems", this.image)
+        .then(() => {
+          this.category.menuItems[newItem.id] = menuItem;
+        })
 
-      this.dismissModal();
-      this.toastService.presentToast("Success")
+        this.dismissModal();
+        this.toastService.presentToast("Success")
+      } else {
+        this.toastService.presentToast("Failure")
+      }
     } else {
-      this.toastService.presentToast("Failure")
+      this.toastService.presentToast("Please add valid values for all required fields")
     }
   }
 
