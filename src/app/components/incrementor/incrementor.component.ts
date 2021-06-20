@@ -17,11 +17,12 @@ export class IncrementorComponent implements OnInit {
 
   addItem(): void {
     this.count++;
-    // this.countChange.emit()
+    this.countChange.emit(this.count);
   }
 
   removeItem(): void {
     this.count--;
+    this.countChange.emit(this.count);
   }
 
 }
