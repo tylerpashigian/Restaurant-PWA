@@ -12,7 +12,7 @@ import { Constants } from 'src/utils/constants';
 export class FirebaseService {
 
   public database: firebase.firestore.Firestore;
-  public storage: firebase.storage.Storage
+  public storage: firebase.storage.Storage;
 
   constructor() {
     // Your web app's Firebase configuration

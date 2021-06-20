@@ -25,14 +25,8 @@ export class RestaurantPage implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit() {
-    this.restaurantId = this.route.params['restaurantId'];
-    this.route.params.subscribe((params: Params) => {
-      this.restaurantId = params['restaurantId'];
-    });
-    this.tableId = this.route.params['tableId'];
-    this.route.params.subscribe((params: Params) => {
-      this.tableId = params['tableId'];
-    });
+    this.restaurantId = this.route.snapshot.paramMap.get('restaurantId');
+    this.tableId = this.route.snapshot.paramMap.get('tableId');
     this.restaurantService.initRestaurant(this.restaurantId, this.tableId);
     this.restuarantSubscription = this.restaurantService.restaurantPublish.subscribe((menu) => {
       this.menu = {...menu}

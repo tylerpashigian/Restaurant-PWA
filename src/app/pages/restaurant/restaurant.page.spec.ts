@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { of } from 'rxjs';
 
 import { RestaurantPage } from './restaurant.page';
 
@@ -17,11 +16,13 @@ describe('RestaurantPage', () => {
       providers: [ 
         {
           provide: ActivatedRoute,
-          useValue: {
-            params: of({
-              restaurantId: 'hgiuogwhr',
-              tableId: '5',
-            }),
+          useValue: { 
+            snapshot: { 
+              paramMap: convertToParamMap({
+                restaurantId: 'hgiuogwhr', 
+                tableId: '5'
+              })
+            } 
           }
         },
       ]
