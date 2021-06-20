@@ -1,0 +1,4 @@
+<ion-icon *ngIf="count === 0" name="trash-outline"></ion-icon>
+<ion-icon (click)="removeItem()" *ngIf="count > 0" name="remove-outline"></ion-icon>
+{{ count }}
+<ion-icon (click)="addItem()" name="add-outline"></ion-icon>
