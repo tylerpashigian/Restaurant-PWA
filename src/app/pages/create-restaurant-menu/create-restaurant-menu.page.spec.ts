@@ -8,6 +8,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { of } from 'rxjs';
 
 import { Category } from 'src/app/models/category';
+import { RestaurantService } from 'src/app/services/restaurant/restaurant.service';
 import { CreateRestaurantMenuPage } from './create-restaurant-menu.page';
 
 describe('CreateRestaurantMenuPage', () => {
@@ -45,6 +46,10 @@ describe('CreateRestaurantMenuPage', () => {
         }
       ]
     }).compileComponents();
+
+    const restaurantService = TestBed.get(RestaurantService);
+    spyOn(restaurantService, 'initRestaurant').and.returnValue(Promise.resolve(null));
+    spyOn(restaurantService, 'subscribeToCategories').and.returnValue(null);
 
     fixture = TestBed.createComponent(CreateRestaurantMenuPage);
     component = fixture.componentInstance;

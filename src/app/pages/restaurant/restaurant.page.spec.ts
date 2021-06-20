@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { RestaurantService } from 'src/app/services/restaurant/restaurant.service';
 
 import { RestaurantPage } from './restaurant.page';
 
@@ -27,6 +28,9 @@ describe('RestaurantPage', () => {
         },
       ]
     }).compileComponents();
+
+    const restaurantService = TestBed.get(RestaurantService);
+    spyOn(restaurantService, 'initRestaurant').and.returnValue(Promise.resolve(null));
 
     fixture = TestBed.createComponent(RestaurantPage);
     component = fixture.componentInstance;
