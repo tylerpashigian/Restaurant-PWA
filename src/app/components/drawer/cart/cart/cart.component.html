@@ -1,7 +1,8 @@
 <div class="wrapper">
   <div class="cartContent">
     <div *ngFor="let item of cartItems | keyvalue">
-      <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price }})</p>
+      <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+      <app-incrementor></app-incrementor>
     </div>
   </div>
   <p class="ion-padding-horizontal">Cart Total: {{ cartTotal | currency }}</p>

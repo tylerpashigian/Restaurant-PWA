@@ -11,6 +11,7 @@ import { DrawerDirective } from '../directives/drawer/drawer.directive'
 import { DrawerPreviewDirective } from '../directives/drawerPreview/drawer-preview.directive';
 import { CartComponent } from './drawer/cart/cart/cart.component';
 import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.component';
+import { IncrementorComponent } from './incrementor/incrementor.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.co
     CartPreviewComponent,
     CustomImageUploadComponent,
     DrawerComponent,
+    IncrementorComponent,
     MenuItemCardComponent,
     MenuItemsComponent,
     DrawerDirective,
@@ -36,6 +38,7 @@ import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.co
     CartPreviewComponent,
     CustomImageUploadComponent,
     DrawerComponent,
+    IncrementorComponent,
     MenuItemCardComponent,
     MenuItemsComponent
   ]
