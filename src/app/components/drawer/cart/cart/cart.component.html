@@ -1,6 +1,7 @@
 <div class="wrapper">
   <div class="cartContent">
-    <div *ngFor="let item of cartItems | keyvalue">
+    <div *ngFor="let item of cartItems | keyvalue; let i = index">
+      <p><b>{{item.value.userEmail ? item.value.userEmail : 'Guest ' + (i + 1)}}</b></p>
       <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
     </div>
   </div>

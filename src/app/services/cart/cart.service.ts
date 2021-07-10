@@ -28,11 +28,11 @@ export class CartService implements OnDestroy {
     this.cartSubscription = this.restaurantService.cartPublish.subscribe((cart) => {
       this.setDrawerState(cart.cartItems);
       const cartItems = cart.cartItems.reduce((items, next) => {
-        if (items[next.id]) {
-          items[next.id].items.push(next)
-          items[next.id].quantity += 1;
+        if (items[next.userAdded]) {
+          items[next.userAdded].items.push(next);
+          items[next.userAdded].quantity += 1;
         } else {
-          items[next.id] = { items: [next], quantity: 1 }
+          items[next.userAdded] = { items: [next], quantity: 1, userAdded: next.userAdded, userEmail: next.userEmail }
         }        
         return items;
       }, {});

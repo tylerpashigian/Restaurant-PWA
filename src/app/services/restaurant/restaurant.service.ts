@@ -68,7 +68,8 @@ export class RestaurantService {
             id: item.id, 
             title: item.title, 
             price: item.price, 
-            userAdded: item.userAdded ?? "Guest user"
+            userAdded: item.userAdded ?? "Guest user",
+            userEmail: item.userEmail,
           } as MenuItem)
           cartTotal += +item.price;
         });        
@@ -83,6 +84,7 @@ export class RestaurantService {
       title: item.title,
       price: item.price ?? '',
       userAdded: this.authService.user.uid,
+      userEmail: this.authService.user.email,
       uuid: uuidv4(),
       // imageUrl?: string;
       // ingredients: [string];
@@ -207,7 +209,8 @@ export class RestaurantService {
           description: data.description,
           title: data.name,
           price: data.price,
-          userAdded: data.userAdded
+          userAdded: data.userAdded,
+          userEmail: data.userEmail,
         }
         menuItems.push(menuItem);
         if (!this.menu.categories[categoryId].menuItems) { this.menu.categories[categoryId].menuItems = {} }

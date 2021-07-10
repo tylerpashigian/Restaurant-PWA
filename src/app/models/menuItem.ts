@@ -8,4 +8,5 @@ export interface MenuItem {
   imageUrl?: string;
   ingredients?: [string];
   userAdded?: string;
+  userEmail?: string;
 }

@@ -24,7 +24,7 @@ export class CartComponent implements OnInit {
     this.cartItems = this.cartService.cartItems;
     this.cartTotal = this.cartService.cartTotal;
     this.cartService.cartItemsUpdated.subscribe((cartItems: CartObject) => {            
-      this.cartItems = cartItems.cartItems;      
+      this.cartItems = cartItems.cartItems;
       this.cartTotal = cartItems.cartTotal;
     })
   }
