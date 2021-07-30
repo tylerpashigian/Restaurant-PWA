@@ -14,8 +14,9 @@ import { DrawerService } from 'src/app/services/drawer/drawer.service';
 import { DrawerState, DrawerType } from 'src/app/models/drawerState';
 import { CartComponent } from './cart/cart/cart.component';
 import { DrawerPreviewDirective } from '../../directives/drawerPreview/drawer-preview.directive';
-import { CartPreviewComponent } from './cart/cart-preview/cart-preview.component';
+import { SimplePreviewComponent } from './simple-preview/simple-preview/simple-preview.component';
 import { DynamicDrawerComponent, DynamicDrawerItem } from 'src/app/models/dynamicDrawerItem';
+import { LoginDrawerComponent } from './login-drawer/login-drawer.component';
 
 @Component({
   selector: 'app-drawer',
@@ -26,6 +27,8 @@ export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('drawer', { read: ElementRef }) drawer: ElementRef;
   @ViewChild('previewWrapper', { read: ElementRef }) previewWrapper: ElementRef;
+  @ViewChild('contentWrapper', { read: ElementRef }) contentWrapper: ElementRef;
+  @ViewChild('closeButton', { read: ElementRef }) closeButton: ElementRef;
 
   @ViewChild(DrawerDirective, {static: true}) drawerHost: DrawerDirective;
   @ViewChild(DrawerPreviewDirective, {static: true}) drawerPreviewHost: DrawerPreviewDirective;
@@ -37,6 +40,7 @@ export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isOpen: boolean = false;
   previewHeight: number;
+  contentHeight: number;
   deltaY: number = 0
 
   drawerType: DrawerType;
@@ -74,8 +78,12 @@ export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
 
       switch(type) {
         case DrawerType.Cart:
-          dynamicPreviewComponent = new DynamicDrawerItem(CartPreviewComponent, { previewCtaText: "Cart Preview" });
+          dynamicPreviewComponent = new DynamicDrawerItem(SimplePreviewComponent, { previewCtaText: "Cart Preview" });
           dynamicComponent = new DynamicDrawerItem(CartComponent, { drawerBodyText: "Cart Body" });
+          break;
+        case DrawerType.Login:
+          dynamicPreviewComponent = new DynamicDrawerItem(SimplePreviewComponent, { previewCtaText: "Login" });
+          dynamicComponent = new DynamicDrawerItem(LoginDrawerComponent, {});
           break;
         default:
           break;
@@ -180,8 +188,12 @@ export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openDrawer() {
     this.loadDynamicComponent(this.drawerService.drawerType).then(() => {
+      this.contentHeight = 
+        this.outerHeight(this.contentWrapper.nativeElement) + 
+        this.outerHeight(this.closeButton.nativeElement);
+      let deltaHeight: number = this.platform.height() - this.contentHeight;
       const drawer = this.drawer.nativeElement;
-      drawer.style.top = `${this.platform.height()*.05}px`;
+      drawer.style.top = `${deltaHeight}px`;
     });
   }
 

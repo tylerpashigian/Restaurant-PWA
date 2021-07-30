@@ -10,8 +10,9 @@ import { MenuItemsComponent } from './menu-items/menu-items.component';
 import { DrawerDirective } from '../directives/drawer/drawer.directive'
 import { DrawerPreviewDirective } from '../directives/drawerPreview/drawer-preview.directive';
 import { CartComponent } from './drawer/cart/cart/cart.component';
-import { CartPreviewComponent } from './drawer/cart/cart-preview/cart-preview.component';
+import { SimplePreviewComponent } from './drawer/simple-preview/simple-preview/simple-preview.component';
 import { IncrementorComponent } from './incrementor/incrementor.component';
+import { LoginDrawerComponent } from './drawer/login-drawer/login-drawer.component';
 
 @NgModule({
   imports: [
@@ -23,24 +24,26 @@ import { IncrementorComponent } from './incrementor/incrementor.component';
   declarations: [
     AddItemModalComponent,
     CartComponent,
-    CartPreviewComponent,
     CustomImageUploadComponent,
     DrawerComponent,
+    DrawerDirective,
+    DrawerPreviewDirective,
     IncrementorComponent,
+    LoginDrawerComponent,
     MenuItemCardComponent,
     MenuItemsComponent,
-    DrawerDirective,
-    DrawerPreviewDirective
+    SimplePreviewComponent,
   ],
   exports: [
     AddItemModalComponent,
     CartComponent,
-    CartPreviewComponent,
     CustomImageUploadComponent,
     DrawerComponent,
     IncrementorComponent,
+    LoginDrawerComponent,
     MenuItemCardComponent,
-    MenuItemsComponent
+    MenuItemsComponent,
+    SimplePreviewComponent,
   ]
 })
 

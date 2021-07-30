@@ -1,0 +1,30 @@
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: var(--ion-spacing-small);
+  color: var(--ion-color-neutral);
+
+  p {
+    margin-top: 0;
+  }
+
+  .guestButton {
+    --background: var(--ion-color-neutral);
+    --background-activated: var(--ion-color-light-blue);
+    --border-radius: 25px;
+    --color: #457b9d;
+  }
+
+  .loginButton {
+    --background: var(--ion-color-light-blue);
+    --background-activated: var(--ion-color-light-blue);
+    --border-radius: 25px;
+    --color: #457b9d;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -3,10 +3,10 @@ import { DrawerService } from 'src/app/services/drawer/drawer.service';
 
 @Component({
   selector: 'app-cart-preview',
-  templateUrl: './cart-preview.component.html',
-  styleUrls: ['./cart-preview.component.scss'],
+  templateUrl: './simple-preview.component.html',
+  styleUrls: ['./simple-preview.component.scss'],
 })
-export class CartPreviewComponent implements OnInit {
+export class SimplePreviewComponent implements OnInit {
 
   data: any
   openDrawerCallback: () => void
