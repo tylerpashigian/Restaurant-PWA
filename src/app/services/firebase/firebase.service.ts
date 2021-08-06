@@ -37,7 +37,16 @@ export class FirebaseService {
 
     this.database = firebase.firestore();
     this.storage = firebase.storage();
+    this.intializeEmulator();
+  }
 
+  intializeEmulator() {
+    if (location.hostname === "localhost") {
+      this.database.settings({
+        host: Constants.Mock.MockFirebaseDatabaseURL,
+        ssl: false
+      });
+    }
   }
 
   async loadImage(id: string, ref: string) {
