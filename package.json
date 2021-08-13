@@ -10,7 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ionic": "ionic serve --address=0.0.0.0"
+    "ionic": "ionic serve --host=0.0.0.0",
+    "mock": "ionic serve --host=0.0.0.0 -c=mock"
   },
   "private": true,
   "dependencies": {

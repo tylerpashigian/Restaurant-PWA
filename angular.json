@@ -43,6 +43,14 @@
             "scripts": []
           },
           "configurations": {
+            "mock": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mock.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -80,6 +88,9 @@
             "browserTarget": "app:build"
           },
           "configurations": {
+            "mock": {
+              "browserTarget": "app:build:mock"
+            },
             "production": {
               "browserTarget": "app:build:production"
             },

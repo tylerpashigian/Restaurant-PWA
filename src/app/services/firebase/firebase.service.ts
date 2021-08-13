@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as firebase from "firebase/app";
 import 'firebase/firestore';
 import 'firebase/storage'
+import { environment } from 'src/environments/environment';
 
 import { Constants } from 'src/utils/constants';
 
@@ -41,7 +42,7 @@ export class FirebaseService {
   }
 
   intializeEmulator() {
-    if (location.hostname === "localhost") {
+    if (environment.mock) {
       this.database.settings({
         host: Constants.Mock.MockFirebaseDatabaseURL,
         ssl: false
