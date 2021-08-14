@@ -6,6 +6,8 @@ import "firebase/auth"
 
 import { FirebaseService } from '../firebase/firebase.service'
 import { GenericToastService } from '../../services/toasts/genericToast/generic-toast.service'
+import { environment } from 'src/environments/environment';
+import { Constants } from 'src/utils/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,10 @@ export class AuthService {
   }
 
   init() {
+    if (environment.mock) {
+      firebase.auth().useEmulator(Constants.Mock.MockFirebaseAuthURL);
+    }
+
     firebase.auth().onAuthStateChanged(user => {
       this.user = user;
 
