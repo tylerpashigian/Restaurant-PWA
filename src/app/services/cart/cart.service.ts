@@ -8,10 +8,9 @@ import { MenuItem } from 'src/app/models/menuItem';
 import { RestaurantService } from '../restaurant/restaurant.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService implements OnDestroy {
-
   cartSubscription: Subscription;
   cartItemsUpdated = new Subject<CartObject>();
   cartItems: CartItems = {};
@@ -19,32 +18,41 @@ export class CartService implements OnDestroy {
   orderedItems: CartItems = {};
 
   constructor(
-    private drawerService: DrawerService, 
+    private drawerService: DrawerService,
     private restaurantService: RestaurantService
   ) {
     this.initCartSubscription();
   }
 
   initCartSubscription(): void {
-    this.cartSubscription = this.restaurantService.cartPublish.subscribe((cart) => {
-      const cartItems = this.createItemsObject(cart.cartItems);
-      const orderedItems = this.createItemsObject(cart.orderedItems);
-      this.cartItems = cartItems;
-      this.orderedItems = orderedItems;
-      this.cartTotal = cart.cartTotal;
-      this.setDrawerState(cart.cartItems, cart.orderedItems);
-      this.cartItemsUpdated.next({ cartItems: cartItems, cartTotal: cart.cartTotal, orderedItems: orderedItems });
-    });
+    this.cartSubscription = this.restaurantService.cartPublish.subscribe(
+      (cart) => {
+        this.cartItems = this.createItemsObject(cart.cartItems);
+        this.orderedItems = this.createItemsObject(cart.orderedItems);
+        this.cartTotal = cart.cartTotal;
+        this.setDrawerState(cart.cartItems, cart.orderedItems);
+        this.cartItemsUpdated.next({
+          cartItems: this.cartItems,
+          cartTotal: cart.cartTotal,
+          orderedItems: this.orderedItems,
+        });
+      }
+    );
   }
-  
+
   createItemsObject(itemsList: MenuItem[]): any {
     return itemsList.reduce((items, next) => {
       if (items[next.userAdded]) {
         items[next.userAdded].items.push(next);
         items[next.userAdded].quantity += 1;
       } else {
-        items[next.userAdded] = { items: [next], quantity: 1, userAdded: next.userAdded, userEmail: next.userEmail }
-      }        
+        items[next.userAdded] = {
+          items: [next],
+          quantity: 1,
+          userAdded: next.userAdded,
+          userEmail: next.userEmail,
+        };
+      }
       return items;
     }, {});
   }
@@ -57,9 +65,13 @@ export class CartService implements OnDestroy {
   order(): void {
     // TODO: make executeOrder return a promise to only alter cartItemsUpdated if successful
     this.restaurantService.executeOrder(this.cartItems, this.orderedItems);
-    this.orderedItems = this.cartItems;    
+    this.orderedItems = this.cartItems;
     this.cartItems = {};
-    this.cartItemsUpdated.next({ cartItems: this.cartItems, cartTotal: this.cartTotal, orderedItems: this.orderedItems });
+    this.cartItemsUpdated.next({
+      cartItems: this.cartItems,
+      cartTotal: this.cartTotal,
+      orderedItems: this.orderedItems,
+    });
   }
 
   ngOnDestroy(): void {
@@ -67,12 +79,14 @@ export class CartService implements OnDestroy {
   }
 
   setDrawerState(cart: MenuItem[], orderedItems: MenuItem[]): void {
-    if ((cart.length || orderedItems.length) && this.drawerService.drawerState === DrawerState.Closed) {
+    if (
+      (cart.length || orderedItems.length) &&
+      this.drawerService.drawerState === DrawerState.Closed
+    ) {
       this.drawerService.setType(DrawerType.Cart);
       this.drawerService.setState(DrawerState.Preview);
     } else if (!cart.length && !orderedItems.length) {
       this.drawerService.setState(DrawerState.Closed);
     }
   }
-  
 }
