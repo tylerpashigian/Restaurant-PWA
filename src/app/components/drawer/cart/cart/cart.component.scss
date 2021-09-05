@@ -7,9 +7,13 @@
     --background-activated: var(--ion-color-light-blue);
     --border-radius: 25px;
     --color: #457b9d;
+    display: flex;
+    flex: 1;
   }
     
   .cartFooter {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     padding-bottom: calc(3vh + env(safe-area-inset-bottom));

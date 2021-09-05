@@ -16,6 +16,7 @@ export class CartService implements OnDestroy {
   cartItemsUpdated = new Subject<CartObject>();
   cartItems: CartItems = {};
   cartTotal: number;
+  orderedItems: CartItems = {};
 
   constructor(
     private drawerService: DrawerService, 
@@ -26,36 +27,50 @@ export class CartService implements OnDestroy {
 
   initCartSubscription(): void {
     this.cartSubscription = this.restaurantService.cartPublish.subscribe((cart) => {
-      this.setDrawerState(cart.cartItems);
-      const cartItems = cart.cartItems.reduce((items, next) => {
-        if (items[next.userAdded]) {
-          items[next.userAdded].items.push(next);
-          items[next.userAdded].quantity += 1;
-        } else {
-          items[next.userAdded] = { items: [next], quantity: 1, userAdded: next.userAdded, userEmail: next.userEmail }
-        }        
-        return items;
-      }, {});
+      const cartItems = this.createItemsObject(cart.cartItems);
+      const orderedItems = this.createItemsObject(cart.orderedItems);
       this.cartItems = cartItems;
+      this.orderedItems = orderedItems;
       this.cartTotal = cart.cartTotal;
-      this.cartItemsUpdated.next({ cartItems: cartItems, cartTotal: cart.cartTotal });
+      this.setDrawerState(cart.cartItems, cart.orderedItems);
+      this.cartItemsUpdated.next({ cartItems: cartItems, cartTotal: cart.cartTotal, orderedItems: orderedItems });
     });
   }
   
+  createItemsObject(itemsList: MenuItem[]): any {
+    return itemsList.reduce((items, next) => {
+      if (items[next.userAdded]) {
+        items[next.userAdded].items.push(next);
+        items[next.userAdded].quantity += 1;
+      } else {
+        items[next.userAdded] = { items: [next], quantity: 1, userAdded: next.userAdded, userEmail: next.userEmail }
+      }        
+      return items;
+    }, {});
+  }
+
   // REVIEW Should this be skipped and restaurantService be called directly?
   addItem(item: MenuItem) {
     this.restaurantService.addCartItem(item);
+  }
+
+  order(): void {
+    // TODO: make executeOrder return a promise to only alter cartItemsUpdated if successful
+    this.restaurantService.executeOrder(this.cartItems, this.orderedItems);
+    this.orderedItems = this.cartItems;    
+    this.cartItems = {};
+    this.cartItemsUpdated.next({ cartItems: this.cartItems, cartTotal: this.cartTotal, orderedItems: this.orderedItems });
   }
 
   ngOnDestroy(): void {
     this.cartSubscription.unsubscribe();
   }
 
-  setDrawerState(cart: MenuItem[]): void {
-    if (cart.length && this.drawerService.drawerState === DrawerState.Closed) {
+  setDrawerState(cart: MenuItem[], orderedItems: MenuItem[]): void {
+    if ((cart.length || orderedItems.length) && this.drawerService.drawerState === DrawerState.Closed) {
       this.drawerService.setType(DrawerType.Cart);
       this.drawerService.setState(DrawerState.Preview);
-    } else if (!cart.length) {
+    } else if (!cart.length && !orderedItems.length) {
       this.drawerService.setState(DrawerState.Closed);
     }
   }
