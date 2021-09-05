@@ -14,7 +14,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit, OnDestroy {
-
   cartItems: CartItems;
   cartSubscription: Subscription;
   cartTotal: number;
@@ -32,13 +31,15 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartItems = this.cartService.cartItems;
     this.cartTotal = this.cartService.cartTotal;
     this.orderedItems = this.cartService.orderedItems;
-    this.cartSubscription = this.cartService.cartItemsUpdated.subscribe((cartItems: CartObject) => {            
-      this.cartItems = cartItems.cartItems;
-      this.cartTotal = cartItems.cartTotal;
-      this.orderedItems = cartItems.orderedItems;
-    })
+    this.cartSubscription = this.cartService.cartItemsUpdated.subscribe(
+      (cartItems: CartObject) => {
+        this.cartItems = cartItems.cartItems;
+        this.cartTotal = cartItems.cartTotal;
+        this.orderedItems = cartItems.orderedItems;
+      }
+    );
   }
-  
+
   ngOnDestroy() {
     if (this.cartSubscription) {
       this.cartSubscription.unsubscribe();
@@ -59,5 +60,4 @@ export class CartComponent implements OnInit, OnDestroy {
   checkout() {
     this.restaurantService.checkout();
   }
-
 }

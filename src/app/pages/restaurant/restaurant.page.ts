@@ -49,6 +49,9 @@ export class RestaurantPage implements OnDestroy, OnInit {
         title: menuItem.title,
         price: menuItem.price,
       });
+      if (this.drawerService.drawerState === DrawerState.Open) {
+        this.drawerService.setState(DrawerState.Open);
+      }
     } else {
       this.drawerService.setType(DrawerType.Login);
       this.drawerService.setState(DrawerState.Open);
