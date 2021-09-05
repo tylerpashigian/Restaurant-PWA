@@ -68,23 +68,11 @@ export class RestaurantService {
         const items = document.data().items ?? [];
         const orderedItems = document.data().orderedItems ?? [];
         items.forEach((item: MenuItem) => {
-          cartItems.push({ 
-            id: item.id, 
-            title: item.title, 
-            price: item.price, 
-            userAdded: item.userAdded ?? "Guest user",
-            userEmail: item.userEmail,
-          } as MenuItem)
+          this.createItemList(cartItems, item);
           cartTotal += +item.price;
         }); 
         orderedItems.forEach((orderedItem: MenuItem) => {
-          ordered.push({ 
-            id: orderedItem.id, 
-            title: orderedItem.title, 
-            price: orderedItem.price, 
-            userAdded: orderedItem.userAdded ?? "Guest user",
-            userEmail: orderedItem.userEmail,
-          } as MenuItem)
+          this.createItemList(ordered, orderedItem);
           cartTotal += +orderedItem.price;
         });
         this.cartPublish.next({ cartTotal: cartTotal, cartItems: cartItems, orderedItems: ordered });
@@ -314,6 +302,16 @@ export class RestaurantService {
       // ingredients: [string];
       // created: Date.now(),
     };
+  }
+
+  createItemList(list: MenuItem[], item: MenuItem): void {
+    list.push({ 
+      id: item.id, 
+      title: item.title, 
+      price: item.price, 
+      userAdded: item.userAdded ?? "Guest user",
+      userEmail: item.userEmail,
+    } as MenuItem)
   }
 
 }
