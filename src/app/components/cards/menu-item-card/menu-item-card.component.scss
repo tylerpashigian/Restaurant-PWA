@@ -1,17 +1,22 @@
-.menuItemCard {
-  align-items: center;;
-  justify-content: space-between;
-}
+:host {
+  border-radius: 5px;
+  cursor: pointer;
+  --ion-background-color: white;
+  .menuItemCard {
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.menuItemDescription {
-  color: #a9b2c3;
-  font-size: 12px;
-}
+  .menuItemDescription {
+    color: #a9b2c3;
+    font-size: 12px;
+  }
 
-.menuItemThumbnail {
-  --border-radius: 8px;
-}
+  .menuItemThumbnail {
+    --border-radius: 8px;
+  }
 
-.menuItemTitle {
-  font-family: raleway, sans-serif;
+  .menuItemTitle {
+    font-family: raleway, sans-serif;
+  }
 }

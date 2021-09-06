@@ -9,12 +9,13 @@ import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 })
 export class MenuItemCardComponent implements OnInit {
 
-  @Input() menuItem: MenuItem
+  @Input() menuItem: MenuItem;
+  @Input() lines = true;
 
   constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit() {
-    this.loadImage()
+    this.loadImage();
   }
 
   loadImage() {

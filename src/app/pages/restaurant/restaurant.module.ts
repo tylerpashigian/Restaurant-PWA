@@ -7,10 +7,12 @@ import { IonicModule } from '@ionic/angular';
 import { RestaurantPageRoutingModule } from './restaurant-routing.module';
 
 import { RestaurantPage } from './restaurant.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    ComponentsModule,
     FormsModule,
     IonicModule,
     RestaurantPageRoutingModule
