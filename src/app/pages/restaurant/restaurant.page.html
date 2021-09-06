@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="menu">
+  <div *ngIf="menu" [style.paddingBottom.px]="drawerHeight">
     <h3>{{ menu.restaurantName }}</h3>
     <div
       *ngFor="let category of menu.categories | keyvalue"

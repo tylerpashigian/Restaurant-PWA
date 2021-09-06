@@ -8,6 +8,7 @@ export class DrawerService {
 
   drawerStateChanged = new EventEmitter<DrawerState>();
   drawerTypeChanged = new EventEmitter<DrawerType>();
+  drawerHeightChanged = new EventEmitter<number>();
 
   public drawerState: DrawerState = DrawerState.Closed
   public drawerType: DrawerType = DrawerType.Cart

@@ -16,6 +16,8 @@ import { RestaurantService } from 'src/app/services/restaurant/restaurant.servic
 })
 export class RestaurantPage implements OnDestroy, OnInit {
 
+  drawerHeight: number = 0;
+  drawerHeightSubscription: Subscription;
   menu: Menu;
   restaurantId: string;
   restuarantSubscription: Subscription;
@@ -36,9 +38,13 @@ export class RestaurantPage implements OnDestroy, OnInit {
     this.restuarantSubscription = this.restaurantService.restaurantPublish.subscribe((menu) => {
       this.menu = { ...menu };
     });
+    this.drawerHeightSubscription = this.drawerService.drawerHeightChanged.subscribe((height: number) => {
+      this.drawerHeight = height;
+    });
   }
 
   ngOnDestroy(): void {
+    this.drawerHeightSubscription.unsubscribe();
     this.restuarantSubscription.unsubscribe();
   }
 

@@ -183,6 +183,8 @@ export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
       let deltaHeight: number = this.platform.height() - this.previewHeight
       const drawer = this.drawer.nativeElement;
       drawer.style.top = `${deltaHeight}px`;
+
+      this.drawerService.drawerHeightChanged.emit(this.previewHeight);
     });
   }
 
@@ -194,6 +196,8 @@ export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
       let deltaHeight: number = this.platform.height() - this.contentHeight;
       const drawer = this.drawer.nativeElement;
       drawer.style.top = `${deltaHeight}px`;
+
+      this.drawerService.drawerHeightChanged.emit(this.contentHeight);
     });
   }
 
@@ -202,6 +206,8 @@ export class DrawerComponent implements OnInit, AfterViewInit, OnDestroy {
       const drawer = this.drawer.nativeElement;
       drawer.style.top = `${this.platform.height() + 20}px`
     });
+
+    this.drawerService.drawerHeightChanged.emit(0);
   }
 
   ngOnDestroy(): void {
