@@ -1,12 +1,23 @@
 <div class="wrapper">
   <div class="cartContent">
-    <div *ngFor="let item of cartItems | keyvalue; let i = index">
-      <p><b>{{item.value.userEmail ? item.value.userEmail : 'Guest ' + (i + 1)}}</b></p>
-      <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+    <div *ngIf="(cartItems | json) != ({} | json)">
+      <div *ngFor="let item of cartItems | keyvalue; let i = index">
+        <p><b>{{item.value.userEmail ? item.value.userEmail : 'Guest ' + (i + 1)}}</b></p>
+        <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+      </div>
+    </div>
+    <div *ngIf="(orderedItems | json) != ({} | json)">
+      <p><b>Ordered Items</b></p>
+      <div *ngFor="let item of orderedItems | keyvalue; let i = index">
+        <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+      </div>
     </div>
   </div>
   <p class="ion-padding-horizontal">Cart Total: {{ cartTotal | currency }}</p>
   <div class="cartFooter">
+    <ion-button expand="block" class="checkoutButton" (click)="order()">
+        Order
+    </ion-button>
     <ion-button expand="block" class="checkoutButton" (click)="checkout()">
         Checkout
     </ion-button>

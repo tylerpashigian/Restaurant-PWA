@@ -42,13 +42,6 @@ export class RestaurantPage implements OnDestroy, OnInit {
     this.restuarantSubscription.unsubscribe();
   }
 
-  ionViewDidEnter() {    
-    this.drawerService.setType(DrawerType.Cart);
-    if (Object.keys(this.cartService.cartItems).length && this.drawerService.drawerState === DrawerState.Closed) {
-      this.drawerService.setState(DrawerState.Preview);
-    }
-  }
-
   addCartItem(menuItem: MenuItem) {
     if (this.authService.user) {
       this.cartService.addItem({
@@ -56,6 +49,9 @@ export class RestaurantPage implements OnDestroy, OnInit {
         title: menuItem.title,
         price: menuItem.price,
       });
+      if (this.drawerService.drawerState === DrawerState.Open) {
+        this.drawerService.setState(DrawerState.Open);
+      }
     } else {
       this.drawerService.setType(DrawerType.Login);
       this.drawerService.setState(DrawerState.Open);
@@ -63,6 +59,7 @@ export class RestaurantPage implements OnDestroy, OnInit {
   }
 
   loadMenuItems(id: string) {
+    // TODO: Move this logic to a back end store
     if (this.menu.categories[id].menuItems) {
       console.log('Gathered local items', this.menu.categories[id].menuItems);
     } else {

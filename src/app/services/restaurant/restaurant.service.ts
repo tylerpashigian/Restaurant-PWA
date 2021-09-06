@@ -13,6 +13,8 @@ import { AuthService } from '../auth/auth.service';
 
 import { FirebaseService } from '../firebase/firebase.service'
 import { GenericToastService } from '../toasts/genericToast/generic-toast.service';
+import { CartItems } from 'src/app/models/cartItems';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -62,18 +64,18 @@ export class RestaurantService {
       .onSnapshot(document => {
         let cartTotal = 0;
         let cartItems = [] as MenuItem[];
+        let ordered = [] as MenuItem[];
         const items = document.data().items ?? [];
+        const orderedItems = document.data().orderedItems ?? [];
         items.forEach((item: MenuItem) => {
-          cartItems.push({ 
-            id: item.id, 
-            title: item.title, 
-            price: item.price, 
-            userAdded: item.userAdded ?? "Guest user",
-            userEmail: item.userEmail,
-          } as MenuItem)
+          this.createItemList(cartItems, item);
           cartTotal += +item.price;
-        });        
-        this.cartPublish.next({ cartTotal: cartTotal, cartItems: cartItems });
+        }); 
+        orderedItems.forEach((orderedItem: MenuItem) => {
+          this.createItemList(ordered, orderedItem);
+          cartTotal += +orderedItem.price;
+        });
+        this.cartPublish.next({ cartTotal: cartTotal, cartItems: cartItems, orderedItems: ordered });
       })
   }
 
@@ -102,6 +104,34 @@ export class RestaurantService {
       });
   }
 
+  executeOrder(cartItems: CartItems, orderedItems: CartItems) {
+    const id = environment.mock ? this.restaurantId : `${this.restaurantId}#${this.tableId}`;
+    const executedOrder = [];
+    for (let key in orderedItems) {
+      let value = orderedItems[key];
+      value.items.forEach((item) => {
+        const data = this.createItem(item, value);
+        executedOrder.push(data);
+      });
+    }
+    for (let key in cartItems) {
+      let value = cartItems[key];
+      value.items.forEach((item) => {
+        const data = this.createItem(item, value);
+        executedOrder.push(data);
+      });
+    }
+    this.firebaseService.database
+      .collection("tables")
+      .doc(id)
+      .update({
+        orderedItems: executedOrder,
+        items: []
+      })
+      .catch((error) => {
+        console.log(`Firebase error: ${error}`);   
+      });
+  }
 
   checkout(): void {
     // TODO: handle payment logic here as well and only clearTable if the payment was successful
@@ -113,7 +143,8 @@ export class RestaurantService {
       .collection("tables")
       .doc(`${this.restaurantId}#${this.tableId}`)
       .update({
-        items: firebase.firestore.FieldValue.delete()
+        items: firebase.firestore.FieldValue.delete(),
+        orderedItems: firebase.firestore.FieldValue.delete()
       })
   }
 
@@ -254,6 +285,33 @@ export class RestaurantService {
     } catch(error) {
       console.log(`Error adding category ${error}`);
     }
+  }
+
+  // ANCHOR Heler Functions
+  createItem(item: MenuItem, value: any): MenuItem {
+    return {
+      id: item.id,
+      // description: item.description,
+      title: item.title,
+      price: item.price ?? '',
+      userAdded: value.userAdded,
+      userEmail: this.authService.user.email,
+      // REVIEW: Do we need the uuid field?
+      uuid: uuidv4(),
+      // imageUrl?: string;
+      // ingredients: [string];
+      // created: Date.now(),
+    } as MenuItem;
+  }
+
+  createItemList(list: MenuItem[], item: MenuItem): void {
+    list.push({ 
+      id: item.id, 
+      title: item.title, 
+      price: item.price, 
+      userAdded: item.userAdded ?? "Guest user",
+      userEmail: item.userEmail,
+    } as MenuItem)
   }
 
 }
