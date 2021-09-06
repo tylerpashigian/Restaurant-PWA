@@ -63,15 +63,7 @@ export class CartService implements OnDestroy {
   }
 
   order(): void {
-    // TODO: make executeOrder return a promise to only alter cartItemsUpdated if successful
     this.restaurantService.executeOrder(this.cartItems, this.orderedItems);
-    this.orderedItems = this.cartItems;
-    this.cartItems = {};
-    this.cartItemsUpdated.next({
-      cartItems: this.cartItems,
-      cartTotal: this.cartTotal,
-      orderedItems: this.orderedItems,
-    });
   }
 
   ngOnDestroy(): void {
