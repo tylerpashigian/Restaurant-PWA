@@ -296,6 +296,7 @@ export class RestaurantService {
       price: item.price ?? '',
       userAdded: value.userAdded,
       userEmail: this.authService.user.email,
+      // REVIEW: Do we need the uuid field?
       uuid: uuidv4(),
       // imageUrl?: string;
       // ingredients: [string];
