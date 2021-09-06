@@ -9,4 +9,5 @@ export interface MenuItem {
   ingredients?: [string];
   userAdded?: string;
   userEmail?: string;
+  uuid?: string;
 }

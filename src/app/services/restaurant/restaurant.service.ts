@@ -288,7 +288,7 @@ export class RestaurantService {
   }
 
   // ANCHOR Heler Functions
-  createItem(item: MenuItem, value: any): any {
+  createItem(item: MenuItem, value: any): MenuItem {
     return {
       id: item.id,
       // description: item.description,
@@ -297,7 +297,6 @@ export class RestaurantService {
       userAdded: value.userAdded,
       userEmail: this.authService.user.email,
       uuid: uuidv4(),
-      quantity: value.quantity
       // imageUrl?: string;
       // ingredients: [string];
       // created: Date.now(),

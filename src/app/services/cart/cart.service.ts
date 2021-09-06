@@ -40,7 +40,7 @@ export class CartService implements OnDestroy {
     );
   }
 
-  createItemsObject(itemsList: MenuItem[]): any {
+  createItemsObject(itemsList: MenuItem[]): CartItems {
     return itemsList.reduce((items, next) => {
       if (items[next.userAdded]) {
         items[next.userAdded].items.push(next);
