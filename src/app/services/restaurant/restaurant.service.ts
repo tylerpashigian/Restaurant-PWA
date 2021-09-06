@@ -301,7 +301,7 @@ export class RestaurantService {
       // imageUrl?: string;
       // ingredients: [string];
       // created: Date.now(),
-    };
+    } as MenuItem;
   }
 
   createItemList(list: MenuItem[], item: MenuItem): void {
