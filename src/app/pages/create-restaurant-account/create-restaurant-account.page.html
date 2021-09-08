@@ -11,18 +11,20 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list lines="none">
-      <form [formGroup]="createForm">
-          <ion-item>
-              <ion-label position="stacked">Email</ion-label>
-              <ion-input formControlName="email" type="text"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label position="stacked">Password</ion-label>
-              <ion-input formControlName="password" type="password"></ion-input>
-          </ion-item>
-      </form>
-  </ion-list>
+  <div class="ion-padding">
+    <ion-list lines="none">
+        <form [formGroup]="createForm">
+            <ion-item>
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input formControlName="email" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Password</ion-label>
+                <ion-input formControlName="password" type="password"></ion-input>
+            </ion-item>
+        </form>
+    </ion-list>
 
-  <ion-button color="primary" (click)="createAccount()">Create Account!</ion-button>
+    <ion-button color="primary" (click)="createAccount()">Create Account!</ion-button>
+  </div>
 </ion-content>

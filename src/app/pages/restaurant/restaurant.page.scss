@@ -3,11 +3,11 @@
   .category {
     cursor: pointer;
   }
-}
 
-app-menu-item-card {
-  &::ng-deep ion-item {
-    border-radius: 10px;
-    margin: var(--ion-spacing-small);
+  app-menu-item-card {
+    &::ng-deep ion-item {
+      border-radius: 10px;
+      margin: var(--ion-spacing-small);
+    }
   }
 }
