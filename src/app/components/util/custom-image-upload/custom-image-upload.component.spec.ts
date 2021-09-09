@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { CustomImageUploadComponent } from './custom-image-upload.component';
@@ -7,7 +7,7 @@ describe('CustomImageUploadComponent', () => {
   let component: CustomImageUploadComponent;
   let fixture: ComponentFixture<CustomImageUploadComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CustomImageUploadComponent ],
       imports: [IonicModule.forRoot()]

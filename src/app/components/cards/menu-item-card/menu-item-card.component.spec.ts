@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 
@@ -8,7 +8,7 @@ describe('MenuItemCardComponent', () => {
   let component: MenuItemCardComponent;
   let fixture: ComponentFixture<MenuItemCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MenuItemCardComponent],
       imports: [IonicModule.forRoot()],
