@@ -4,7 +4,9 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #3880ff;
+  // Temporarily changing primary color too fix accessability until custom buttons are made
+  // --ion-color-primary: #3880ff;
+  --ion-color-primary: var(--ion-color-dark-blue);
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { DynamicDrawerComponent } from 'src/app/models/dynamicDrawerItem';
 
@@ -8,7 +8,7 @@ describe('CartPreviewComponent', () => {
   let component: SimplePreviewComponent;
   let fixture: ComponentFixture<SimplePreviewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SimplePreviewComponent ],
       imports: [IonicModule.forRoot()]
