@@ -12,7 +12,7 @@ import { MenuItem, MenuItems } from 'src/app/models/menuItem';
 import { AuthService } from '../auth/auth.service';
 
 import { FirebaseService } from '../firebase/firebase.service'
-import { GenericToastService } from '../toasts/genericToast/generic-toast.service';
+import { GenericToastService, ToastType } from '../toasts/genericToast/generic-toast.service';
 import { CartItems } from 'src/app/models/cartItems';
 import { environment } from 'src/environments/environment';
 
@@ -52,7 +52,7 @@ export class RestaurantService {
         this.restaurantPublish.next(this.menu);
         this.subsribeToCart();
       } catch(error) {
-        this.toastService.presentToast("Invalid Restaurant Id");
+        this.toastService.presentToast("Invalid Restaurant Id", ToastType.failure);
       }
     }); 
   }

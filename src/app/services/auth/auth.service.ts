@@ -5,7 +5,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth"
 
 import { FirebaseService } from '../firebase/firebase.service'
-import { GenericToastService } from '../../services/toasts/genericToast/generic-toast.service'
+import { GenericToastService, ToastType } from '../../services/toasts/genericToast/generic-toast.service'
 import { environment } from 'src/environments/environment';
 import { Constants } from 'src/utils/constants';
 
@@ -39,22 +39,22 @@ export class AuthService {
   async loginAnonymously(): Promise<firebase.auth.UserCredential> {
     try {
       const user = await firebase.auth().signInAnonymously();
-      this.toastService.presentToast("Success")
+      this.toastService.presentToast("Success", ToastType.success)
       return user
     } catch(error) {
       console.log(error)
-      this.toastService.presentToast("Failure")
+      this.toastService.presentToast("Failure", ToastType.failure)
     }
   }
 
   async loginWithEmail(email: string, password: string) {
     try {
       const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-      this.toastService.presentToast("Success")
+      this.toastService.presentToast("Success", ToastType.success)
       return user
     } catch(error) {
       console.log(error)
-      this.toastService.presentToast("Failure")
+      this.toastService.presentToast("Failure", ToastType.failure)
     }
   }
 
@@ -71,11 +71,11 @@ export class AuthService {
   async createAccount(email: string, password: string) {
     try {
       const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      this.toastService.presentToast("Success")
+      this.toastService.presentToast("Success", ToastType.success)
       return user
     } catch(error) {
       console.log(error)
-      this.toastService.presentToast("Failure")
+      this.toastService.presentToast("Failure", ToastType.failure)
     }
   }
 

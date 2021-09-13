@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "short_name": "PWA App",
+  "short_name": "The Tab",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
