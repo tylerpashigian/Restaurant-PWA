@@ -83,6 +83,7 @@ export class RestaurantService {
     const data = {
       id: item.id,
       // description: item.description,
+      hasImage: item.hasImage,
       title: item.title,
       price: item.price ?? '',
       userAdded: this.authService.user.uid,
@@ -98,6 +99,19 @@ export class RestaurantService {
       .doc(`${this.restaurantId}#${this.tableId}`)
       .update({
         items: firebase.firestore.FieldValue.arrayUnion(data)
+      })
+      .catch((error) => {
+        console.log(`Firebase error: ${error}`);   
+      });
+  }
+
+  removeCartItem(item: MenuItem) {
+    // TODO: test scenarios where the menu item has changed from the restaurants end
+    this.firebaseService.database
+      .collection("tables")
+      .doc(`${this.restaurantId}#${this.tableId}`)
+      .update({
+        items: firebase.firestore.FieldValue.arrayRemove(item)
       })
       .catch((error) => {
         console.log(`Firebase error: ${error}`);   
@@ -238,6 +252,7 @@ export class RestaurantService {
         let menuItem: MenuItem = {
           id: element.id,
           description: data.description,
+          hasImage: data.hasImage || false,
           title: data.name,
           price: data.price,
           userAdded: data.userAdded,
@@ -263,6 +278,7 @@ export class RestaurantService {
       let menuItem: MenuItem = {
         id: element.id,
         description: data.description,
+        hasImage: data.hasImage || false,
         title: data.name,
         price: data.price
       }
@@ -279,6 +295,7 @@ export class RestaurantService {
         categoryId: categoryId,
         created: Date.now(),
         description: menuItem.description,
+        hasImage: menuItem.hasImage,
         name: menuItem.title,
         price: menuItem.price
       });
@@ -298,7 +315,8 @@ export class RestaurantService {
       userEmail: this.authService.user.email,
       // REVIEW: Do we need the uuid field?
       uuid: uuidv4(),
-      // imageUrl?: string;
+      // setting this to false to ensure images dont load in the ordered items section
+      hasImage: false,
       // ingredients: [string];
       // created: Date.now(),
     } as MenuItem;
@@ -309,8 +327,10 @@ export class RestaurantService {
       id: item.id, 
       title: item.title, 
       price: item.price, 
+      hasImage: item.hasImage,
       userAdded: item.userAdded ?? "Guest user",
       userEmail: item.userEmail,
+      uuid: item.uuid,
     } as MenuItem)
   }
 

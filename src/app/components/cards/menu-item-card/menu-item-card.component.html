@@ -9,8 +9,8 @@
   <ion-label>
     <div class="vstack">
       <div class="hstack menuItemCard">
-        <p class="menuItemTitle">{{ menuItem.title }}</p>
-        <p class="ion-text-right">{{ menuItem.price | currency }}</p>
+        <p class="menuItemTitle">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+        <ng-content></ng-content>
       </div>
       <p *ngIf="menuItem.description" class="menuItemDescription">
         {{ menuItem.description }}

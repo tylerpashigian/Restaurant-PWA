@@ -15,12 +15,16 @@ export class MenuItemCardComponent implements OnInit {
   constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit() {
-    this.loadImage();
+    if (this.menuItem.hasImage) {
+      this.loadImage();
+    }
   }
 
   loadImage() {
     this.firebaseService.loadImage(this.menuItem.id, "menuItems").then(url => {
-      this.menuItem.imageUrl = url
+      if (url) {
+        this.menuItem.imageUrl = url
+      }
     })
   }
 

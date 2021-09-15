@@ -2,24 +2,44 @@
   <div class="cartContent">
     <div *ngIf="(cartItems | json) != ({} | json)">
       <div *ngFor="let item of cartItems | keyvalue; let i = index">
-        <p><b>{{item.value.userEmail ? item.value.userEmail : 'Guest ' + (i + 1)}}</b></p>
-        <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+        <p>
+          <b>{{
+            item.value.userEmail ? item.value.userEmail : 'Guest ' + (i + 1)
+          }}</b>
+        </p>
+        <app-menu-item-card
+          [lines]="false"
+          *ngFor="let menuItem of item.value.items; let j = index"
+          [menuItem]="menuItem"
+        >
+          <ion-button
+            fill="clear"
+            *ngIf="menuItem.userAdded | isUsersItem"
+            (click)="removeItem(j, menuItem.userAdded)"
+            ><ion-icon name="trash-outline"></ion-icon
+          ></ion-button>
+        </app-menu-item-card>
       </div>
     </div>
     <div *ngIf="(orderedItems | json) != ({} | json)">
       <p><b>Ordered Items</b></p>
       <div *ngFor="let item of orderedItems | keyvalue; let i = index">
-        <p *ngFor="let menuItem of item.value.items">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+        <app-menu-item-card
+          [lines]="false"
+          *ngFor="let menuItem of item.value.items"
+          [menuItem]="menuItem"
+        >
+        </app-menu-item-card>
       </div>
     </div>
   </div>
   <p class="ion-padding-horizontal">Cart Total: {{ cartTotal | currency }}</p>
   <div class="cartFooter">
     <ion-button expand="block" class="checkoutButton" (click)="order()">
-        Order
+      Order
     </ion-button>
     <ion-button expand="block" class="checkoutButton" (click)="checkout()">
-        Checkout
+      Checkout
     </ion-button>
   </div>
 </div>
