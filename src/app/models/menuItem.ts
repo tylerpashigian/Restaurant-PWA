@@ -10,4 +10,5 @@ export interface MenuItem {
   userAdded?: string;
   userEmail?: string;
   uuid?: string;
+  hasImage: boolean;
 }

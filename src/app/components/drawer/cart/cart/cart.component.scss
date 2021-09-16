@@ -34,4 +34,11 @@
     flex-direction: column;
     height: 100%;
   }
+
+  app-menu-item-card {
+    &::ng-deep ion-item, ion-icon  {
+      color: var(--ion-color-neutral);
+      --background: clear;
+    }
+  }
 }

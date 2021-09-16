@@ -7,11 +7,10 @@
 <ion-content>
   <div *ngIf="menu" [style.paddingBottom.px]="drawerHeight" class="ion-padding">
     <h3><b>{{ menu.restaurantName }}</b></h3>
-    <div
-      *ngFor="let category of menu.categories | keyvalue"
-      (click)="loadMenuItems(category.value.id)"
-    >
-      <h3 class="category">{{ category.value.title }}</h3>
+    <div *ngFor="let category of menu.categories | keyvalue">
+      <h3 class="category" (click)="loadMenuItems(category.value.id)">
+        {{ category.value.title }}
+      </h3>
       <app-menu-item-card
         [lines]="false"
         *ngFor="let menuItem of category.value.menuItems | keyvalue"

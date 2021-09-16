@@ -1,4 +1,4 @@
-import { MenuItem, MenuItems } from './menuItem';
+import { MenuItems } from './menuItem';
 
 export type Categories = { [id: string]: Category }
 

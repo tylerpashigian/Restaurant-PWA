@@ -47,6 +47,7 @@ export class AddItemModalComponent implements OnInit {
     let price: string | null = this.itemForm.controls.price.value;
     let menuItem: MenuItem = {
       description: description,
+      hasImage: this.image !== null,
       title: title,
       price: price,
     }

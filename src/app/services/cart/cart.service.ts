@@ -62,6 +62,11 @@ export class CartService implements OnDestroy {
     this.restaurantService.addCartItem(item);
   }
 
+  // REVIEW Should this be skipped and restaurantService be called directly?
+  removeItem(item: MenuItem) {
+    this.restaurantService.removeCartItem(item);
+  }
+
   order(): void {
     this.restaurantService.executeOrder(this.cartItems, this.orderedItems);
   }

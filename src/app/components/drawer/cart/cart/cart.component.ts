@@ -36,6 +36,8 @@ export class CartComponent implements OnInit, OnDestroy {
         this.cartItems = cartItems.cartItems;
         this.cartTotal = cartItems.cartTotal;
         this.orderedItems = cartItems.orderedItems;
+        // TODO: Find a better way to recalculate the size of an updated drawer
+        this.drawerService.setState(this.drawerService.drawerState);
       }
     );
   }
@@ -46,11 +48,14 @@ export class CartComponent implements OnInit, OnDestroy {
     }
   }
 
+  removeItem(index: number, id: string): void {
+    const { imageUrl, ...cartItem } = this.cartItems[id].items[index];
+    this.cartService.removeItem(cartItem);
+  }
+
   order() {
     if (this.authService.user) {
       this.cartService.order();
-      // TODO: Find a better way to recalculate the size of an open drawer
-      this.drawerService.setState(DrawerState.Open);
     } else {
       this.drawerService.setType(DrawerType.Login);
       this.drawerService.setState(DrawerState.Open);
