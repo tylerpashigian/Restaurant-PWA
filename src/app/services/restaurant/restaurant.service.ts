@@ -106,7 +106,6 @@ export class RestaurantService {
   }
 
   removeCartItem(item: MenuItem) {
-    // TODO: test scenarios where the menu item has changed from the restaurants end
     this.firebaseService.database
       .collection("tables")
       .doc(`${this.restaurantId}#${this.tableId}`)

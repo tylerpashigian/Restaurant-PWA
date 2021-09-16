@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartItems } from 'src/app/models/cartItems';
 import { CartObject } from 'src/app/models/cart';
@@ -49,8 +49,8 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   removeItem(index: number, id: string): void {
-    const { imageUrl, ...rest } = this.cartItems[id].items[index];
-    this.cartService.removeItem(rest);
+    const { imageUrl, ...cartItem } = this.cartItems[id].items[index];
+    this.cartService.removeItem(cartItem);
   }
 
   order() {
