@@ -24,6 +24,7 @@ describe('MenuItemCardComponent', () => {
       component.menuItem = {
         title: 'Menu Item',
         price: '3.50',
+        hasImage: false
       };
     }
     fixture.detectChanges();
@@ -49,6 +50,7 @@ describe('MenuItemCardComponent', () => {
     component.menuItem = {
       title: 'Custom Item',
       price: '100',
+      hasImage: false
     };
     expect(component.menuItem.title).toMatch('Custom Item');
     expect(component.menuItem.price).toMatch('100');
