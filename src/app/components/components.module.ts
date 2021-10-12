@@ -14,6 +14,7 @@ import { SimplePreviewComponent } from './drawer/simple-preview/simple-preview/s
 import { IncrementorComponent } from './incrementor/incrementor.component';
 import { LoginDrawerComponent } from './drawer/login-drawer/login-drawer.component';
 import { IsUsersItemPipe } from '../pipes/is-users-item/is-users-item.pipe';
+import { DynamicImageComponent } from './dynamic-image/dynamic-image.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, ReactiveFormsModule],
@@ -24,6 +25,7 @@ import { IsUsersItemPipe } from '../pipes/is-users-item/is-users-item.pipe';
     DrawerComponent,
     DrawerDirective,
     DrawerPreviewDirective,
+    DynamicImageComponent,
     IncrementorComponent,
     LoginDrawerComponent,
     MenuItemCardComponent,
@@ -36,6 +38,7 @@ import { IsUsersItemPipe } from '../pipes/is-users-item/is-users-item.pipe';
     CartComponent,
     CustomImageUploadComponent,
     DrawerComponent,
+    DynamicImageComponent,
     IncrementorComponent,
     LoginDrawerComponent,
     MenuItemCardComponent,

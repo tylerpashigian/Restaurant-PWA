@@ -52,8 +52,7 @@ export class RestaurantPage implements OnDestroy, OnInit {
     if (this.authService.user) {
       this.cartService.addItem({
         id: menuItem.id,
-        // TODO: change this to use actual data instead of false to prevent image in carts
-        hasImage: false,
+        hasImage: menuItem.hasImage,
         title: menuItem.title,
         price: menuItem.price,
       });

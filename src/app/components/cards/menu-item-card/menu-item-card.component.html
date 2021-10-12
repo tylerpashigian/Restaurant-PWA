@@ -1,15 +1,21 @@
 <ion-item *ngIf="menuItem" [lines]="lines ? 'full' : 'none'">
   <ion-thumbnail
-    *ngIf="menuItem.imageUrl"
+    *ngIf="menuItem.hasImage"
     slot="start"
-    class="menuItemThumbnail"
   >
-    <img [src]="menuItem.imageUrl" alt="Menu Item Image" />
+    <app-dynamic-image
+      [ratio]="{ w: 1, h: 1 }"
+      [src]="menuItem.imageUrl"
+      [altText]="'Menu Image Item'"
+    >
+    </app-dynamic-image>
   </ion-thumbnail>
   <ion-label>
     <div class="vstack">
       <div class="hstack menuItemCard">
-        <p class="menuItemTitle">{{ menuItem.title }} ({{ menuItem.price | currency }})</p>
+        <p class="menuItemTitle">
+          {{ menuItem.title }} ({{ menuItem.price | currency }})
+        </p>
         <ng-content></ng-content>
       </div>
       <p *ngIf="menuItem.description" class="menuItemDescription">
