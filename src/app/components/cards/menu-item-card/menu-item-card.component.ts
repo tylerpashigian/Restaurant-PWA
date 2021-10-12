@@ -8,11 +8,10 @@ import { FirebaseService } from 'src/app/services/firebase/firebase.service';
   styleUrls: ['./menu-item-card.component.scss'],
 })
 export class MenuItemCardComponent implements OnInit {
-
   @Input() menuItem: MenuItem;
   @Input() lines = true;
 
-  constructor(private firebaseService: FirebaseService) { }
+  constructor(private firebaseService: FirebaseService) {}
 
   ngOnInit() {
     if (this.menuItem.hasImage) {
@@ -21,11 +20,12 @@ export class MenuItemCardComponent implements OnInit {
   }
 
   loadImage() {
-    this.firebaseService.loadImage(this.menuItem.id, "menuItems").then(url => {
-      if (url) {
-        this.menuItem.imageUrl = url
-      }
-    })
+    this.firebaseService
+      .loadImage(this.menuItem.id, 'menuItems')
+      .then((url) => {
+        if (url) {
+          this.menuItem.imageUrl = url;
+        }
+      });
   }
-
 }
